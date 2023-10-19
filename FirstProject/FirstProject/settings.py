@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -71,7 +71,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'FirstProject.wsgi.application'
 
+STATIC_URL = 'static/'
+# settings.py
 
+
+# Define the location where your collected static files will be stored.
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
