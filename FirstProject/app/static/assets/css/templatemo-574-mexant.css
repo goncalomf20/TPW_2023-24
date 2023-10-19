@@ -839,7 +839,7 @@ cta
 */
 
 section.simple-cta {
-  background-image: url(../images/cta-bg.jpg);
+  background-color: #212741;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -1011,7 +1011,7 @@ calculator
 
 section.calculator {
   margin-top: 150px;
-  background-image: url(../images/calculator-bg.jpg);
+  background-color: #212741;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
