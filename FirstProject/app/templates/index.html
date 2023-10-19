@@ -34,7 +34,7 @@ https://templatemo.com/tm-574-mexant
   </head>
 
 <body>
-
+{% block content %}
 
   <!-- ***** Header Area Start ***** -->
   <header class="header-area header-sticky">
@@ -361,7 +361,7 @@ https://templatemo.com/tm-574-mexant
       </div>
     </div>
   </section>
-
+    <p>{{ games.0.team1 }}</p>
   <section class="calculator">
     <div class="container">
       <div class="row">
@@ -513,7 +513,7 @@ https://templatemo.com/tm-574-mexant
       </div>
     </div>
   </footer>
-
+{% endblock %}
   <!-- Scripts -->
 <!-- Bootstrap core JavaScript -->
 <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
