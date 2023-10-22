@@ -117,10 +117,16 @@ https://templatemo.com/tm-574-mexant
         <div class="row">
             {% for game in games %}
             <div class="col-lg-6">
-                <div class="service-item">
-                    <i style="float: left;"><img src="{% static 'assets/images/' %}{{ game.team1.teamLogo }}" alt=""><h5>{{ game.team1 }}</h5><h6>{{ game.odd1win }}</h6></i>
+                <div class="service-item container" style="position: relative; overflow: hidden">
+                    <i style="float: left;width: 123px; height: 138px">
+                        <img src="{% static 'assets/images/' %}{{ game.team1.teamLogo }}" alt="">
+                        <h5><button onclick="modal_add('{{ game.team1 }}', '{{ game.odd1win }}')" class="btn-primary"><h6>{{ game.odd1win }}</h6></button>{{ game.team1 }}</h5>
+                    </i>
 
-                    <i style="float: right;"><img src="{% static 'assets/images/' %}{{ game.team2.teamLogo }}" alt=""><h5>{{ game.team2 }}</h5><h6>{{ game.odd2win }}</h6></i>
+                    <i style="float: right;width: 123px; height: 138px">
+                        <img src="{% static 'assets/images/' %}{{ game.team2.teamLogo }}" alt="">
+                        <h5>{{ game.team2 }} <button onclick="modal_add('{{ game.team2 }}', '{{ game.odd2win }}')" class="btn-primary"><h6>{{ game.odd2win }}</h6></button></h5>
+                    </i>
                 </div>
             </div>
             {% endfor %}
@@ -129,167 +135,81 @@ https://templatemo.com/tm-574-mexant
 </section>
 
 
-  <section class="simple-cta">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-5">
-          <h4>Business <em>Solutions</em> and <strong>Crypto</strong> Investments</h4>
-        </div>
-        <div class="col-lg-7">
-          <div class="buttons">
-            <div class="green-button">
-              <a href="#">Discover More</a>
-            </div>
-            <div class="orange-button">
-              <a href="#">Contact Us</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
+  {% if request.user.is_authenticated %}
   <section class="about-us" id="about">
     <div class="container">
       <div class="row">
         <div class="col-lg-6 offset-lg-3">
           <div class="section-heading">
-            <h6>About Us</h6>
-            <h4>Know Us Better</h4>
+            <h6>Your Bet</h6>
+            <h4>Play Safe</h4>
           </div>
         </div>
+
         <div class="col-lg-8">
           <div class="naccs">
             <div class="tabs">
               <div class="row">
                 <div class="col-lg-12">
-                  <div class="menu">
-                    <div class="active gradient-border"><span>Web Design</span></div>
-                    <div class="gradient-border"><span>Graphics</span></div>
-                    <div class="gradient-border"><span>Web Coding</span></div>
-                  </div>
-                </div>
-                <div class="col-lg-12">
                   <ul class="nacc">
                     <li class="active">
-                      <div>
-                        <div class="main-list">
-                          <span class="title">Project Title</span>
-                          <span class="title">Budget</span>
-                          <span class="title">Deadline</span>
-                          <span class="title">Client</span>
-                        </div>
-                        <div class="list-item">
-                          <span class="item item-title">Website Redesign</span>
-                          <span class="item">$1,500 to $2,200</span>
-                          <span class="item">2022 Dec 12</span>
-                          <span class="item">Web Biz</span>
-                        </div>
-                        <div class="list-item">
-                          <span class="item item-title">Website Renovation</span>
-                          <span class="item">$2,500 to $3,600</span>
-                          <span class="item">2022 Dec 10</span>
-                          <span class="item">Online Ads</span>
-                        </div>
-                        <div class="list-item">
-                          <span class="item item-title">Marketing Plan</span>
-                          <span class="item">$2,500 to $4,200</span>
-                          <span class="item">2022 Dec 8</span>
-                          <span class="item">Web Biz</span>
-                        </div>
-                        <div class="list-item last-item">
-                          <span class="item item-title">All-new Website</span>
-                          <span class="item">$3,000 to $6,600</span>
-                          <span class="item">2022 Dec 2</span>
-                          <span class="item">Web Presence</span>
-                        </div>
+                      <div id="jogos" >
                       </div>
                     </li>
-                    <li>
-                      <div>
-                        <div class="main-list">
-                          <span class="title">Project Title</span>
-                          <span class="title">Budget</span>
-                          <span class="title">Deadline</span>
-                          <span class="title">Client</span>
-                        </div>
-                        <div class="list-item">
-                          <span class="item item-title">Graphics Redesign</span>
-                          <span class="item">$500 to $800</span>
-                          <span class="item">2022 Nov 24</span>
-                          <span class="item">Media One</span>
-                        </div>
-                        <div class="list-item">
-                          <span class="item item-title">Digital Graphics</span>
-                          <span class="item">$1,500 to $3,000</span>
-                          <span class="item">2022 Nov 18</span>
-                          <span class="item">Second Media</span>
-                        </div>
-                        <div class="list-item">
-                          <span class="item item-title">New Artworks</span>
-                          <span class="item">$2,200 to $4,400</span>
-                          <span class="item">2022 Nov 10</span>
-                          <span class="item">Artwork Push</span>
-                        </div>
-                        <div class="list-item last-item">
-                          <span class="item item-title">Complex Arts</span>
-                          <span class="item">$1,100 to $2,400</span>
-                          <span class="item">2022 Nov 3</span>
-                          <span class="item">Media One</span>
-                        </div>
-                    </li>
-                    <li>
-                      <div>
-                        <div class="main-list">
-                          <span class="title">Project Title</span>
-                          <span class="title">Budget</span>
-                          <span class="title">Estimated</span>
-                          <span class="title">Technology</span>
-                        </div>
-                        <div class="list-item">
-                          <span class="item item-title">Backend Coding</span>
-                          <span class="item">$2,000 to $5,000</span>
-                          <span class="item">2022 Nov 28</span>
-                          <span class="item">PHP MySQL</span>
-                        </div>
-                        <div class="list-item">
-                          <span class="item item-title">New Web App</span>
-                          <span class="item">$1,500 to $3,000</span>
-                          <span class="item">2022 Nov 18</span>
-                          <span class="item">Python Programming</span>
-                        </div>
-                        <div class="list-item">
-                          <span class="item item-title">Frontend Interactions</span>
-                          <span class="item">$3,000 to $6,000</span>
-                          <span class="item">2022 Nov 10</span>
-                          <span class="item">JavaScripts</span>
-                        </div>
-                        <div class="list-item last-item">
-                          <span class="item item-title">Video Creations</span>
-                          <span class="item">$1,800 to $4,400</span>
-                          <span class="item">2022 Nov 3</span>
-                          <span class="item">Multimedia</span>
-                        </div>
-                      </div>
-                    </li>
+
                   </ul>
+                </div>
+
+
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+              <div class="right-content">
+                <h4>Make a bet</h4>
+                 <div class="green-button">
+                     <fieldset>
+                      <label for="money">Insert a value</label>
+                      <input type="number" name="money" id="money" placeholder="" autocomplete="on" required>
+                    </fieldset>
+                     <br>
+                     <button type="submit" id="form-submit" class="btn-primary">Submit Now</button>
+                </div>
+              </div>
+         </div>
+
+      </div>
+
+    </div>
+
+  </section>
+      {% else %}
+      <section class="simple-cta">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-5">
+              <h4>You need to be <em>logged in</em> to <strong>bet</strong></h4>
+            </div>
+            <div class="col-lg-7">
+              <div class="buttons">
+                <div class="green-button">
+                  <a href="{% url 'login' %}">Login</a>
+                </div>
+                <div class="orange-button">
+                  <a href="{% url 'register' %}">Signin</a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-lg-4">
-          <div class="right-content">
-            <h4>Please tell us about your idea and how you want it to be</h4>
-            <p>You are allowed to use this template for your websites. You are <b>NOT allowed</b> to redistribute the template ZIP file on any other template websites.<br><br>Thank you for downloading and using our templates. Please tell your friends about our website.</p>
-            <div class="green-button">
-              <a href="about-us.html">Discover More</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+      </section>
+
+  {% endif %}
+
+
+
 
   <section class="calculator">
     <div class="container">
@@ -350,7 +270,6 @@ https://templatemo.com/tm-574-mexant
     </div>
   </section>
 
-
   <footer>
     <div class="container">
       <div class="row">
@@ -375,6 +294,42 @@ https://templatemo.com/tm-574-mexant
 <script src="{% static 'assets/js/swiper.js' %}"></script>
 <script src="{% static 'assets/js/custom.js' %}"></script>
 
-  
+
+<script>
+    var apostas = new Map([]);
+  function modal_add(team_name, odd) {
+      console.log(team_name, odd)
+      apostas[team_name] = odd
+      console.log(apostas)
+
+      var jogosDiv = document.getElementById("jogos");
+      var entries = Object.entries(apostas);
+      jogosDiv.innerHTML = '';
+      for (var i = 0; i < entries.length; i++) {
+        var team = entries[i][0];
+        var odd1 = entries[i][1];
+
+        console.log(team, odd1)
+
+        var apostaDiv = document.createElement("div");
+        apostaDiv.classList.add("list-item");
+
+        var teamSpan = document.createElement("span");
+        teamSpan.classList.add("item", "item-title");
+        teamSpan.textContent = team;
+
+        var oddSpan = document.createElement("span");
+        oddSpan.classList.add("item");
+        oddSpan.textContent = odd1;
+
+        apostaDiv.appendChild(teamSpan);
+        apostaDiv.appendChild(oddSpan);
+        jogosDiv.appendChild(apostaDiv);
+
+      }
+  }
+</script>
+
+
   </body>
 </html>
