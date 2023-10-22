@@ -1,0 +1,150 @@
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <title>Bets </title>
+
+    <!-- Bootstrap core CSS -->
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="{% static 'assets/css/fontawesome.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/templatemo-574-mexant.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/owl.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/formregister.css' %}">
+
+</head>
+<body>
+    {% if form.errors %}
+        <p>ERROR</p>
+    {% endif %}
+  <!-- ***** Header Area Start ***** -->
+  <header class="header-area header-sticky" style="background-color: #181d30;">
+      <div class="container">
+
+          <div class="row">
+
+              <div class="col-12">
+                  <nav class="main-nav">
+                      <!-- ***** Logo Start ***** -->
+
+                      <!-- ***** Logo End ***** -->
+                      <!-- ***** Menu Start ***** -->
+                      <ul class="nav">
+
+                          <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+                          <li class="scroll-to-section"><a href="#services">Bets</a></li>
+                          <li class="scroll-to-section"><a href="#about">Teams</a></li>
+                          {% if request.user.is_authenticated %}
+                            <li class="has-sub">
+                              <a href="javascript:void(0)">{{ request.user.username }}</a>
+                              <ul class="sub-menu">
+                                  <li><a href="about-us.html">Details</a></li>
+                                  <li><a href="our-services.html">Add Money</a></li>
+                                  <li><a href="contact-us.html">Add comment</a></li>
+                              </ul>
+                            </li>
+                              <li class="scroll-to-section"><a  href="{% url 'logout' %}">Logout</a></li>
+                          {% else %}
+
+                              <li class="scroll-to-section"><a  href="{% url 'login' %}">Login</a></li>
+                              <li><a  href="{% url 'register' %}">Sign in</a></li>
+                          {% endif %}
+                      </ul>
+                      <a class='menu-trigger'>
+                          <span>Menu</span>
+                      </a>
+                      <!-- ***** Menu End ***** -->
+                  </nav>
+              </div>
+          </div>
+      </div>
+  </header>
+  <!-- ***** Header Area End ***** -->
+<section class="about-us" id="about">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+          <div class="section-heading">
+
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="naccs">
+            <div class="tabs">
+              <div class="row">
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input id="username" name="username">
+                    </div>
+
+                    <div class="form-group">
+                          <label for="password">Password</label>
+                            <input id="password" name="password">
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="hidden" name="next" value="/" />
+                                <input type="submit" value="Log in" class="btn btn-primary btn-block" />
+                            </div>
+                        </div>
+                    </div>
+                     {% if form.errors %}
+                        <p class="validation-summary-errors">Please enter a correct user name and password.</p>
+                    {% endif %}
+
+                </form>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <footer style="position: fixed;bottom: 0;width: 100%;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <p>Copyright © 2022 Mexant Co., Ltd. All Rights Reserved.
+
+          <br>Designed by <a title="CSS Templates" rel="sponsored" href="https://templatemo.com" target="_blank">TemplateMo</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+<!-- Bootstrap core JavaScript -->
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+<script src="{% static 'assets/js/isotope.min.js' %}"></script>
+<script src="{% static 'assets/js/owl-carousel.js' %}"></script>
+
+<script src="{% static 'assets/js/tabs.js' %}"></script>
+<script src="{% static 'assets/js/swiper.js' %}"></script>
+<script src="{% static 'assets/js/custom.js' %}"></script>
+
+</body>
+{% endblock %}
+</html>

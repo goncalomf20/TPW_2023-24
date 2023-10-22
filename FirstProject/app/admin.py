@@ -1,9 +1,10 @@
 from django.contrib import admin
-from app.models import User, Admin, Team, Game, Bet, comments
+from app.models import Team, Game, Bet, comments
 # Register your models here.
 
-admin.site.register(User)
-admin.site.register(Admin)
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ()
+
 admin.site.register(Team)
 admin.site.register(Game)
 admin.site.register(Bet)
