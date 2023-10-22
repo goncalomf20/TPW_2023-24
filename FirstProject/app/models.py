@@ -5,6 +5,13 @@ from django.contrib.auth.models import UserManager
 # Create your models here.
 from django.contrib.auth.models import User
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    money = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.user)
+
 
 class Team(models.Model):
     teamName = models.CharField(max_length=70, default="")
