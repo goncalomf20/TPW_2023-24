@@ -37,7 +37,7 @@ https://templatemo.com/tm-574-mexant
 {% block content %}
 
   <!-- ***** Header Area Start ***** -->
-  <header class="header-area header-sticky" >
+  <header class="header-area header-sticky" style="background-color: #181d30;" >
       <div class="container">
           <div class="row">
               <div class="col-12">
@@ -80,7 +80,7 @@ https://templatemo.com/tm-574-mexant
 
   <!-- ***** Main Banner Area Start ***** -->
 
-  <div class="swiper-container" id="top">
+ <!-- <div class="swiper-container" id="top">
     <div class="swiper-wrapper">
       <div class="swiper-slide">
         <div class="slide-inner"  style="background-image:url({% static 'assets/images/futex.png' %})">
@@ -108,27 +108,53 @@ https://templatemo.com/tm-574-mexant
     </div>
     <div class="swiper-button-next swiper-button-white"></div>
     <div class="swiper-button-prev swiper-button-white"></div>
-  </div>
+  </div> -->
 
   <!-- ***** Main Banner Area End ***** -->
 
-<section class="services" id="services">
+<section class="services" id="services" >
     <div class="container">
         <div class="row">
             {% for game in games %}
-            <div class="col-lg-6">
-                <div class="service-item container" style="position: relative; overflow: hidden">
-                    <i style="float: left;width: 123px; height: 138px">
-                        <img src="{% static 'assets/images/' %}{{ game.team1.teamLogo }}" alt="">
-                        <h5><button onclick="modal_add('{{ game.team1 }}', '{{ game.odd1win }}')" class="btn-primary"><h6>{{ game.odd1win }}</h6></button>{{ game.team1 }}</h5>
-                    </i>
+                <div class="col-lg-6"> <!-- Dividir em duas colunas -->
+        <div class="service-item text-center">
+            <div class="row"> <!-- Nova linha aninhada -->
+                <div class="col-md-4"> <!-- Dividir a primeira coluna em três -->
+                    <div>
+                        <img  style="width: 123px; height: 138px" src="{% static 'assets/images/' %}{{ game.team1.teamLogo }}" alt="">
+                        <h5>
+                            <button onclick="modal_add('{{ game.team1 }}-{{ game.team2 }} ({{ game.team1 }})', '{{ game.odd1win }}')" class="btn-success">
+                                <h6 style="color: white">{{ game.odd1win }}</h6>
+                            </button>
+                            {{ game.team1 }}
+                        </h5>
+                    </div>
+                </div>
+                <div class="col-md-4"> <!-- Dividir a segunda coluna em três -->
+                    <div>
+                        <img  style="width: 80px;height: auto; padding-top: 40px" src="{% static 'assets/images/close.png' %}" alt="">
+                        <h5 style="padding-top: 15px">
+                            <button  class="btn-success" onclick="modal_add('{{ game.team2 }}-{{ game.team1 }} (empate)' , '{{ game.oddDraw }}')">
 
-                    <i style="float: right;width: 123px; height: 138px">
-                        <img src="{% static 'assets/images/' %}{{ game.team2.teamLogo }}" alt="">
-                        <h5>{{ game.team2 }} <button onclick="modal_add('{{ game.team2 }}', '{{ game.odd2win }}')" class="btn-primary"><h6>{{ game.odd2win }}</h6></button></h5>
-                    </i>
+                                <h6 style="color: white">{{ game.oddDraw }}</h6>
+                            </button>
+                        </h5>
+                    </div>
+                </div>
+                <div class="col-md-4"> <!-- Dividir a terceira coluna em três -->
+                    <div>
+                        <img style="width: 123px; height: 138px" src="{% static 'assets/images/' %}{{ game.team2.teamLogo }}" alt="">
+                        <h5>
+                            {{ game.team2 }}
+                            <button onclick="modal_add('{{ game.team1 }}-{{ game.team2 }} ({{ game.team2 }})', '{{ game.odd2win }}')" class="btn-success">
+                                <h6 style="color: white">{{ game.odd2win }}</h6>
+                            </button>
+                        </h5>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
             {% endfor %}
         </div>
     </div>
@@ -136,7 +162,7 @@ https://templatemo.com/tm-574-mexant
 
 
   {% if request.user.is_authenticated %}
-  <section class="about-us" id="about">
+  <section class="about-us" id="about"   >
     <div class="container">
       <div class="row">
         <div class="col-lg-6 offset-lg-3">
@@ -156,14 +182,11 @@ https://templatemo.com/tm-574-mexant
                       <div id="jogos" >
                       </div>
                     </li>
-
                   </ul>
                 </div>
-
-
-                </div>
+              </div>
             </div>
-            </div>
+          </div>
         </div>
 
         <div class="col-lg-4">
@@ -172,10 +195,12 @@ https://templatemo.com/tm-574-mexant
                  <div class="green-button">
                      <fieldset>
                       <label for="money">Insert a value</label>
-                      <input type="number" name="money" id="money" placeholder="" autocomplete="on" required>
+                      <input onchange="money_func('{{ user.profile.money }}')" type="number" name="money" id="money" placeholder="" autocomplete="on" required>
                     </fieldset>
                      <br>
+                     <p id="warning" style="display: none; color: red "></p>
                      <button type="submit" id="form-submit" class="btn-primary">Submit Now</button>
+
                 </div>
               </div>
          </div>
@@ -185,7 +210,7 @@ https://templatemo.com/tm-574-mexant
     </div>
 
   </section>
-      {% else %}
+  {% else %}
       <section class="simple-cta">
         <div class="container">
           <div class="row">
@@ -297,7 +322,7 @@ https://templatemo.com/tm-574-mexant
 
 <script>
     var apostas = new Map([]);
-  function modal_add(team_name, odd) {
+    function modal_add(team_name, odd) {
       console.log(team_name, odd)
       apostas[team_name] = odd
       console.log(apostas)
@@ -316,6 +341,7 @@ https://templatemo.com/tm-574-mexant
 
         var teamSpan = document.createElement("span");
         teamSpan.classList.add("item", "item-title");
+        teamSpan.style.width = "400px";
         teamSpan.textContent = team;
 
         var oddSpan = document.createElement("span");
@@ -328,6 +354,28 @@ https://templatemo.com/tm-574-mexant
 
       }
   }
+
+
+
+    function money_func(user_money) {
+        var money_to_bet = parseInt(document.getElementById('money').value);
+        var user_money1 = parseInt(user_money);
+        console.log(money_to_bet, user_money1);
+
+        var warning = document.getElementById('warning');
+
+        if (money_to_bet < 0) {
+            warning.style.display = 'block';
+            warning.textContent = "The value of the bet should not be negative";
+        } else if (money_to_bet > user_money1){
+            warning.style.display = 'block';
+            warning.textContent = "You don't have that amount in your account";
+        } else {
+            warning.style.display = 'none';
+        }
+
+
+    }
 </script>
 
 

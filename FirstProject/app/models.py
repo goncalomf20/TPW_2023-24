@@ -24,6 +24,7 @@ class Game(models.Model):
     team2 = models.ForeignKey(Team, related_name='team2_bets', on_delete=models.CASCADE)
     odd1win = models.FloatField(max_length=20)
     odd2win = models.FloatField(max_length=20)
+    oddDraw = models.FloatField(max_length=20, default=2)
 
 class Bet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # User who placed the bet
