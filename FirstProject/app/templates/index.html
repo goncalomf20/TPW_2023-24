@@ -180,6 +180,7 @@ https://templatemo.com/tm-574-mexant
                   <ul class="nacc">
                     <li class="active">
                       <div id="jogos" >
+
                       </div>
                     </li>
                   </ul>
@@ -192,10 +193,11 @@ https://templatemo.com/tm-574-mexant
         <div class="col-lg-4">
               <div class="right-content">
                 <h4>Make a bet</h4>
+                <h4 id="profit"></h4>
                  <div class="green-button">
                      <fieldset>
                       <label for="money">Insert a value</label>
-                      <input onchange="money_func('{{ user.profile.money }}')" type="number" name="money" id="money" placeholder="" autocomplete="on" required>
+                      <input onchange="money_func('{{ user.profile.money }}')" name="money" id="money" placeholder="" autocomplete="on" required>
                     </fieldset>
                      <br>
                      <p id="warning" style="display: none; color: red "></p>
@@ -322,18 +324,22 @@ https://templatemo.com/tm-574-mexant
 
 <script>
     var apostas = new Map([]);
+    var total_odd = 1;
     function modal_add(team_name, odd) {
+
       console.log(team_name, odd)
       apostas[team_name] = odd
       console.log(apostas)
 
+
       var jogosDiv = document.getElementById("jogos");
       var entries = Object.entries(apostas);
       jogosDiv.innerHTML = '';
+      total_odd = 1
       for (var i = 0; i < entries.length; i++) {
         var team = entries[i][0];
         var odd1 = entries[i][1];
-
+        total_odd *= odd1
         console.log(team, odd1)
 
         var apostaDiv = document.createElement("div");
@@ -353,25 +359,50 @@ https://templatemo.com/tm-574-mexant
         jogosDiv.appendChild(apostaDiv);
 
       }
+      var total_div = document.createElement("div");
+      total_div.classList.add("list-item");
+
+      var total_span = document.createElement("span");
+      total_span.classList.add("item", "item-title");
+      total_span.style.width = "400px";
+      total_span.textContent = "Total Odd:";
+
+      var oddSpan = document.createElement("span");
+      oddSpan.classList.add("item");
+      oddSpan.textContent = total_odd;
+
+      total_div.appendChild(total_span)
+      total_div.appendChild(oddSpan)
+      jogosDiv.appendChild(total_div)
+      console.log(total_odd)
   }
 
-
-
     function money_func(user_money) {
-        var money_to_bet = parseInt(document.getElementById('money').value);
+        var expectation = document.getElementById('profit')
+        var money_to_bet = parseFloat(document.getElementById('money').value);
         var user_money1 = parseInt(user_money);
         console.log(money_to_bet, user_money1);
 
         var warning = document.getElementById('warning');
 
-        if (money_to_bet < 0) {
+        if (isNaN(money_to_bet) || money_to_bet < 0) {
             warning.style.display = 'block';
             warning.textContent = "The value of the bet should not be negative";
+            expectation.style.display = 'none';
+
+        } else if (total_odd == 1){
+            warning.style.display = 'block';
+            warning.textContent = "The bet wasn't made yet";
+            expectation.style.display = 'none';
         } else if (money_to_bet > user_money1){
             warning.style.display = 'block';
             warning.textContent = "You don't have that amount in your account";
+            expectation.style.display = 'none';
         } else {
             warning.style.display = 'none';
+            expectation.style.display = 'block';
+            var final = total_odd * money_to_bet;
+            expectation.textContent = "Possible gains: " + final;
         }
 
 
