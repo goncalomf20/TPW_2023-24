@@ -36,6 +36,8 @@ def logout_user(request):
     logout(request)
     return redirect('/')
 
+def addmoney(request):
+    return render(request,"addmoney.html",{})
 
 @csrf_protect
 def register_user(request):
