@@ -59,7 +59,7 @@ https://templatemo.com/tm-574-mexant
                                   <li><a href="contact-us.html">Add comment</a></li>
                               </ul>
                             </li>
-                                <li class="scroll-to-section"><a href="">{{ user.profile.money }}</a></li>
+                                <li class="scroll-to-section"><a id="money" href="">{{ user.profile.money }}</a></li>
                               <li class="scroll-to-section"><a  href="{% url 'logout' %}">Logout</a></li>
                           {% else %}
 
@@ -123,7 +123,7 @@ https://templatemo.com/tm-574-mexant
                     <div>
                         <img  style="width: 123px; height: 138px" src="{% static 'assets/images/' %}{{ game.team1.teamLogo }}" alt="">
                         <h5>
-                            <button onclick="modal_add('{{ game.team1 }}-{{ game.team2 }} ({{ game.team1 }})', '{{ game.odd1win }}')" class="btn-success">
+                            <button onclick="modal_add('{{ game.team1 }}   -   {{ game.team2 }}   ({{ game.team1 }})', '{{ game.odd1win }}')" class="btn-success">
                                 <h6 style="color: white">{{ game.odd1win }}</h6>
                             </button>
                             {{ game.team1 }}
@@ -134,7 +134,7 @@ https://templatemo.com/tm-574-mexant
                     <div>
                         <img  style="width: 80px;height: auto; padding-top: 40px" src="{% static 'assets/images/close.png' %}" alt="">
                         <h5 style="padding-top: 15px">
-                            <button  class="btn-success" onclick="modal_add('{{ game.team2 }}-{{ game.team1 }} (empate)' , '{{ game.oddDraw }}')">
+                            <button  class="btn-success" onclick="modal_add('{{ game.team1 }}   -   {{ game.team2 }}   (empate)' , '{{ game.oddDraw }}')">
 
                                 <h6 style="color: white">{{ game.oddDraw }}</h6>
                             </button>
@@ -146,7 +146,7 @@ https://templatemo.com/tm-574-mexant
                         <img style="width: 123px; height: 138px" src="{% static 'assets/images/' %}{{ game.team2.teamLogo }}" alt="">
                         <h5>
                             {{ game.team2 }}
-                            <button onclick="modal_add('{{ game.team1 }}-{{ game.team2 }} ({{ game.team2 }})', '{{ game.odd2win }}')" class="btn-success">
+                            <button onclick="modal_add('{{ game.team1 }}   -   {{ game.team2 }}   ({{ game.team2 }})', '{{ game.odd2win }}')" class="btn-success">
                                 <h6 style="color: white">{{ game.odd2win }}</h6>
                             </button>
                         </h5>
@@ -195,13 +195,14 @@ https://templatemo.com/tm-574-mexant
                 <h4>Make a bet</h4>
                 <h4 id="profit"></h4>
                  <div class="green-button">
-                     <fieldset>
-                      <label for="money">Insert a value</label>
-                      <input onchange="money_func('{{ user.profile.money }}')" name="money" id="money" placeholder="" autocomplete="on" required>
-                    </fieldset>
-                     <br>
-                     <p id="warning" style="display: none; color: red "></p>
-                     <button type="submit" id="form-submit" class="btn-primary">Submit Now</button>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="bet" id="bet">
+                        <input type="hidden" name="user" value="{{ user.username }}">
+                        <h4 id="form_money">{{ form.as_p }}</h4>
+                         <p id="warning" style="display: none; color: red "></p>
+                        <button id="button-money" type="submit" id="form-submit" class="btn-primary">Submit Now</button>
+                    </form>
 
                 </div>
               </div>
@@ -377,36 +378,53 @@ https://templatemo.com/tm-574-mexant
       console.log(total_odd)
   }
 
-    function money_func(user_money) {
+    var user_money = document.getElementById('money').innerHTML
+    console.log(user_money)
+
+    function onFormMoneyChange() {
+        var money_to_bet = parseFloat($("#id_money").val());
+
         var expectation = document.getElementById('profit')
-        var money_to_bet = parseFloat(document.getElementById('money').value);
-        var user_money1 = parseInt(user_money);
+
+        var user_money1 = parseFloat(user_money);
         console.log(money_to_bet, user_money1);
 
         var warning = document.getElementById('warning');
 
-        if (isNaN(money_to_bet) || money_to_bet < 0) {
+        if (money_to_bet < 0) {
             warning.style.display = 'block';
             warning.textContent = "The value of the bet should not be negative";
             expectation.style.display = 'none';
+            document.getElementById('button-money').style.display = 'none'
 
         } else if (total_odd == 1){
             warning.style.display = 'block';
             warning.textContent = "The bet wasn't made yet";
             expectation.style.display = 'none';
+            document.getElementById('button-money').style.display = 'none'
         } else if (money_to_bet > user_money1){
             warning.style.display = 'block';
             warning.textContent = "You don't have that amount in your account";
-            expectation.style.display = 'none';
-        } else {
-            warning.style.display = 'none';
             expectation.style.display = 'block';
             var final = total_odd * money_to_bet;
             expectation.textContent = "Possible gains: " + final;
+            document.getElementById('button-money').style.display = 'none'
+        } else {
+            warning.style.display = 'none';
+            expectation.style.display = 'block';
+            document.getElementById('button-money').style.display = 'block'
+            document.getElementById('bet').value = JSON.stringify(apostas)
+            console.log(document.getElementById('bet').value)
+            var final = total_odd * money_to_bet;
+            expectation.textContent = "Possible gains: " + final;
         }
-
-
+        console.log(apostas)
     }
+
+    $(document).ready(function () {
+        $("#id_money").on("change", onFormMoneyChange);
+    });
+
 </script>
 
 

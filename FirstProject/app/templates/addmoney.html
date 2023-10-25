@@ -1,9 +1,10 @@
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name "description" content="">
+    <meta name=description" content="">
     <meta name="author" content="">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <title>Mexant HTML5 Template - About page</title>
@@ -140,8 +141,12 @@
     height: 100%;
 }
     </style>
+
 </head>
 <body>
+    {% if visa_form.errors %}
+        <p>ERROR</p>
+    {% endif %}
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Total Balance:</h5>
@@ -161,13 +166,10 @@
             <div class="payment-cards">
                 <!-- Add your payment methods here -->
                 <div class="payment-card" id="visaCard">
-                    <img src="visa.png" alt="Visa" onclick="openModal('visaForm')">
+                    <img src="" alt="Visa" onclick="openModal('visaForm')">
                 </div>
                 <div class="payment-card" id="masterCard">
-                    <img src="mastercard.png" alt="MasterCard" onclick="openModal('masterCardForm')">
-                </div>
-                <div class="payment-card" id="paypalCard">
-                    <img src="paypal.png" alt="PayPal" onclick="openModal('paypalForm')">
+                    <img src="" alt="MasterCard" onclick="openModal('masterCardForm')">
                 </div>
             </div>
         </div>
@@ -181,54 +183,74 @@
                 <span class="close-button" onclick="closeModal('visaForm')">&times;</span>
                  <div class="centered-content">
                 <h5>Visa Payment Form</h5>
-                       <form>
-            <label for="cardNumber">Card Number:</label>
-            <input type="text" id="cardNumber" name="cardNumber" placeholder="Enter your Visa card number"><br>
-
-            <label for="cardHolderName">Cardholder Name:</label>
-            <input type="text" id="cardHolderName" name="cardHolderName" placeholder="Enter the cardholder's name"><br>
-
-            <label for="expiryDate">Expiration Date:</label>
-            <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YYYY"><br>
-
-            <label for="cvv">CVV:</label>
-            <input type="password" id="cvv" name="cvv" placeholder="Enter CVV"><br>
-
-            <input type="submit" value="Pay">
-        </form>
+ <form method="post">
+    {% csrf_token %}
+     <div class="form-group">
+        <label for="{{ visa_form.money.id_for_label }}">Value to Insert:</label>
+        {{ visa_form.money }}
+    </div>
+    <div class="form-group">
+        <label for="{{ visa_form.card_number.id_for_label }}">Card Number:</label>
+        {{ visa_form.card_number }}
+    </div>
+    <div class="form-group">
+        <label for="{{ visa_form.card_holders_name.id_for_label }}">Cardholder Name:</label>
+        {{ visa_form.card_holders_name }}
+    </div>
+    <div class="form-group">
+        <label for="{{ visa_form.expiration_code.id_for_label }}">Expiration Code:</label>
+        {{ visa_form.expiration_code }}
+    </div>
+    <div class="form-group">
+        <label for="{{ visa_form.cvv.id_for_label }}">CVV:</label>
+        {{ visa_form.cvv }}
+    </div>
+    <input type="submit" value="Submit">
+</form>
                  </div>
             </div>
             <div id="masterCardForm" class="form-container" style="display: none;">
                 <span class="close-button" onclick="closeModal('masterCardForm')">&times;</span>
                  <div class="centered-content">
                 <h5>MasterCard Payment Form</h5>
-                        <form>
-                    <!-- Add your MasterCard payment form fields here -->
-                    <label for="visaCardNumber">Card Number:</label>
-                    <input type="text" id="visaCardNumber" name="visaCardNumber"><br>
-
-                    <label for="visaExpiry">Expiry Date:</label>
-                    <input type="text" id="visaExpiry" name="visaExpiry"><br>
-
-                    <label for="visaCVC">CVC:</label>
-                    <input type="text" id="visaCVC" name="visaCVC"><br>
-
-                    <input type="submit" value="pay">
-        </form>
+                         <form method="post">
+    {% csrf_token %}
+     <div class="form-group">
+        <label for="{{ visa_form.money.id_for_label }}">Value to Insert:</label>
+        {{ visa_form.money }}
+    </div>
+    <div class="form-group">
+        <label for="{{ visa_form.card_number.id_for_label }}">Card Number:</label>
+        {{ visa_form.card_number }}
+    </div>
+    <div class="form-group">
+        <label for="{{ visa_form.card_holders_name.id_for_label }}">Cardholder Name:</label>
+        {{ visa_form.card_holders_name }}
+    </div>
+    <div class="form-group">
+        <label for="{{ visa_form.expiration_code.id_for_label }}">Expiration Code:</label>
+        {{ visa_form.expiration_code }}
+    </div>
+    <div class="form-group">
+        <label for="{{ visa_form.cvv.id_for_label }}">CVV:</label>
+        {{ visa_form.cvv }}
+    </div>
+    <input type="submit" value="Submit">
+</form>
                  </div>
             </div>
             <div id="paypalForm" class="form-container" style="display: none;">
                  <span class="close-button" onclick="closeModal('paypalForm')">&times;</span>
                  <div class="centered-content">
                 <h5>PayPal Payment Form</h5>
-                        <form>
+                        <form method="post">
             <label for="paypalEmail">PayPal Email:</label>
             <input type="text" id="paypalEmail" name="paypalEmail"><br>
 
             <label for="paypalPassword">Password:</label>
             <input type="password" id="paypalPassword" name="paypalPassword"><br>
 
-            <input type="submit" value="pay">
+            <input type="submit" value="Pay">
         </form>
                  </div>
             </div>
@@ -254,4 +276,5 @@
     }
     </script>
 </body>
+{% endblock %}
 </html>
