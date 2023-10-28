@@ -25,10 +25,11 @@ class Game(models.Model):
     odd1win = models.FloatField(max_length=20)
     odd2win = models.FloatField(max_length=20)
     oddDraw = models.FloatField(max_length=20, default=2)
+    win = models.CharField(max_length=70, default="waiting")
     game_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return f"Game between {self.team1} and {self.team2} on {self.game_date}"
+        return f"Game between {self.team1} and {self.team2} on {self.game_date}, win: {self.win}"
 
 class Game_betted(models.Model):
     game = models.ForeignKey(Game, related_name='game', on_delete=models.CASCADE)

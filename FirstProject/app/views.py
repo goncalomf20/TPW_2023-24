@@ -24,8 +24,6 @@ def index(request):
     games = Game.objects.all()
     teams = Team.objects.all()
 
-    ts = {'games' : games, 'teams' : teams}
-
     if len(teams) % 2 == 0:
         nr_games = len(teams) // 2
     else:
@@ -34,48 +32,105 @@ def index(request):
     if len(games) >= nr_games:
         games = games[(len(games) - nr_games):]
 
+    if len(games) == 0:
+        random_teams = list(teams)
+        random.shuffle(random_teams)
 
+        if len(random_teams) % 2 != 0:
+            random_teams = random_teams[:-1]
 
+        new_games = []
+        for idx in range(0, len(random_teams), 2):
+            odd1win = round(random.uniform(1.1, 10.0), 1)  # Generate a random float between 1.0 and 10.0
+            odd2win = round(random.uniform(1.1, 10.0), 1)
+            oddDraw = round(random.uniform(1.1, 10.0), 1)
+            g = Game(team1=random_teams[idx], team2=random_teams[idx + 1], odd1win=odd1win, odd2win=odd2win, oddDraw=oddDraw, game_date=timezone.now())
+            g.save()
+            new_games.append(g)
+
+        games = new_games
+
+    result = []
     #os jogos vão mudar todos os dias, para teste 1 mins
-    if len(games) == 0 or int(timezone.now().timestamp()) - int(games[len(games)-1].game_date.timestamp()) >= 60:
+    if int(timezone.now().timestamp()) - int(games[len(games)-1].game_date.timestamp()) >= 60*60:
 
+        for g in Game.objects.filter(win="waiting"):
+            win_probability_team1 = 1 / g.odd1win  # Probability of team1 winning
+            win_probability_team2 = 1 / g.odd2win  # Probability of team2 winning
+            win_probability_draw = 1 / g.oddDraw  # Probability of a draw
+
+            # Generate a random number between 0 and 1
+            random_number = random.uniform(0, 1)
+
+            win_prob = 0
+            it = 1
+            sum = 0
+            arr = [(0,0)]
+            while sum <= 1:
+                if it == 1:
+                    arr.append((arr[-1][0] + win_probability_team1, it))
+                    sum += win_probability_team1
+                    it = 2
+                elif it == 2:
+                    arr.append((arr[-1][0] + win_probability_team2, it))
+                    sum += win_probability_team2
+                    it = 3
+                elif it == 3:
+                    arr.append((arr[-1][0] + win_probability_draw, it))
+                    sum += win_probability_draw
+                    it = 1
+
+            for inter in arr:
+                if random_number <= inter[0]:
+                    if inter[1] == 1:
+                        g.win = g.team1.teamName
+                    elif inter[1] == 2:
+                        g.win = g.team2.teamName
+                    elif inter[1] == 3:
+                        g.win = "empate"
+
+                    g.save()
+
+                    break
+
+            print(random_number,arr)
+            g.save()
 
         if user_username != "ninguem":
 
             user = User.objects.get(username=user_username)
             profile = Profile.objects.get(user=user)
             print(profile.money)
+
             for bet in Bet.objects.filter(user=user, checked=0):
-                bet.checked = 1
-                bet.save()
 
                 final_odd = 1
+                ganhou = True
                 for betted_game in bet.games.all():
-                    odd = 0
-                    print(betted_game, final_odd, odd, betted_game.game.team1, betted_game.game.team2)
+                    result.append(betted_game)
+
+                    if betted_game.game.win != betted_game.betted:
+                        ganhou = False
+                        final_odd = 1
+                        bet.checked = 1
+                        bet.save()
+
+
                     if str(betted_game.game.team1) == str(betted_game.betted):
                         final_odd *= betted_game.game.odd1win
-                        odd = betted_game.game.odd1win
                     elif str(betted_game.game.team2) == str(betted_game.betted):
                         final_odd *= betted_game.game.odd2win
-                        odd = betted_game.game.odd2win
                     elif "empate" == betted_game.betted:
                         final_odd *= betted_game.game.oddDraw
-                        odd = betted_game.game.oddDraw
+
+                if ganhou:
+                    profit = Decimal(bet.money_invested) * Decimal(final_odd)
+                    profile.money += Decimal(profit)
+                    profile.save()
+                    bet.checked = 2
+                    bet.save()
 
 
-                    print(betted_game, final_odd, odd, betted_game.game.team1, betted_game.game.team1)
-
-
-
-
-                profit = Decimal(final_odd) * Decimal(bet.money_invested)
-
-                print(final_odd, bet.money_invested, profit)
-
-                profile.money += Decimal(profit)
-                profile.save()
-                print(profit, final_odd)
 
         random_teams = list(teams)
         random.shuffle(random_teams)
@@ -137,7 +192,7 @@ def index(request):
     else:
         form = MakeaBet()
 
-    return render(request, "index.html", {'games' : games, 'teams' : teams, "form": form})
+        return render(request, "index.html", {'games' : games, 'teams' : teams, "form": form, "resultados": result})
 
 def login_user(request):
    global user_username

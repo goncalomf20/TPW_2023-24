@@ -111,11 +111,16 @@ https://templatemo.com/tm-574-mexant
   </div> -->
 
   <!-- ***** Main Banner Area End ***** -->
-<p id="data" style="display: none">{{ games.0.game_date }}</p>
+<p id="data" style="display: none">{{ games|last }}</p>
 
 <section class="services" id="services" >
+
+
     <div class="container">
+
+
         <div class="row">
+
             {% for game in games %}
                 <div class="col-lg-6"> <!-- Dividir em duas colunas -->
         <div class="service-item text-center">
@@ -163,6 +168,17 @@ https://templatemo.com/tm-574-mexant
 
 
   {% if request.user.is_authenticated %}
+
+            {% if resultados %}
+                   <ul>
+                        {% for item in resultados %}
+                            <li>Game: {{ item.game}}</li>
+                            <li>Your bet: {{ item.betted }}</li>
+                        {% endfor %}
+                    </ul>
+            {% endif %}
+
+
   <section class="about-us" id="about"   >
     <div class="container">
       <div class="row">
@@ -425,7 +441,13 @@ https://templatemo.com/tm-574-mexant
         $("#id_money").on("change", onFormMoneyChange);
     });
 
+    var data = document.getElementById('data').innerText
 
+    console.log(data)
+    function recarregarPagina() {
+        location.reload();
+    }
+    setInterval(recarregarPagina, 60*6000);
 </script>
 
 
