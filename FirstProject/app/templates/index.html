@@ -111,6 +111,7 @@ https://templatemo.com/tm-574-mexant
   </div> -->
 
   <!-- ***** Main Banner Area End ***** -->
+<p id="data" style="display: none">{{ games.0.game_date }}</p>
 
 <section class="services" id="services" >
     <div class="container">
@@ -379,7 +380,6 @@ https://templatemo.com/tm-574-mexant
   }
 
     var user_money = document.getElementById('money').innerHTML
-    console.log(user_money)
 
     function onFormMoneyChange() {
         var money_to_bet = parseFloat($("#id_money").val());
@@ -424,6 +424,7 @@ https://templatemo.com/tm-574-mexant
     $(document).ready(function () {
         $("#id_money").on("change", onFormMoneyChange);
     });
+
 
 </script>
 

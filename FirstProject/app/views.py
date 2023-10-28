@@ -1,5 +1,8 @@
 import json
-
+import random
+from decimal import Decimal
+import time
+from django.utils import timezone
 from app.models import Team, Game, Bet, comments, Profile, Game_betted, PaymentMethod
 from django.contrib.auth.models import User
 
@@ -12,10 +15,84 @@ from .forms import CreateUserForm, MakeaBet, CreateVisaForm
 from django.contrib.auth.forms import UserCreationForm
 from django.views.decorators.csrf import csrf_protect
 
+
+user_username = "ninguem"
+
 def index(request):
+    global user_username
+
     games = Game.objects.all()
     teams = Team.objects.all()
+
     ts = {'games' : games, 'teams' : teams}
+
+    if len(teams) % 2 == 0:
+        nr_games = len(teams) // 2
+    else:
+        nr_games = (len(teams) - 1) // 2
+
+    if len(games) >= nr_games:
+        games = games[(len(games) - nr_games):]
+
+
+
+    #os jogos vão mudar todos os dias, para teste 1 mins
+    if len(games) == 0 or int(timezone.now().timestamp()) - int(games[len(games)-1].game_date.timestamp()) >= 60:
+
+
+        if user_username != "ninguem":
+
+            user = User.objects.get(username=user_username)
+            profile = Profile.objects.get(user=user)
+            print(profile.money)
+            for bet in Bet.objects.filter(user=user, checked=0):
+                bet.checked = 1
+                bet.save()
+
+                final_odd = 1
+                for betted_game in bet.games.all():
+                    odd = 0
+                    print(betted_game, final_odd, odd, betted_game.game.team1, betted_game.game.team2)
+                    if str(betted_game.game.team1) == str(betted_game.betted):
+                        final_odd *= betted_game.game.odd1win
+                        odd = betted_game.game.odd1win
+                    elif str(betted_game.game.team2) == str(betted_game.betted):
+                        final_odd *= betted_game.game.odd2win
+                        odd = betted_game.game.odd2win
+                    elif "empate" == betted_game.betted:
+                        final_odd *= betted_game.game.oddDraw
+                        odd = betted_game.game.oddDraw
+
+
+                    print(betted_game, final_odd, odd, betted_game.game.team1, betted_game.game.team1)
+
+
+
+
+                profit = Decimal(final_odd) * Decimal(bet.money_invested)
+
+                print(final_odd, bet.money_invested, profit)
+
+                profile.money += Decimal(profit)
+                profile.save()
+                print(profit, final_odd)
+
+        random_teams = list(teams)
+        random.shuffle(random_teams)
+
+        if len(random_teams) % 2 != 0:
+            random_teams = random_teams[:-1]
+
+        new_games = []
+        for idx in range(0, len(random_teams), 2):
+            odd1win = round(random.uniform(1.1, 10.0), 1)  # Generate a random float between 1.0 and 10.0
+            odd2win = round(random.uniform(1.1, 10.0), 1)
+            oddDraw = round(random.uniform(1.1, 10.0), 1)
+            g = Game(team1=random_teams[idx], team2=random_teams[idx + 1], odd1win=odd1win, odd2win=odd2win, oddDraw=oddDraw, game_date=timezone.now())
+            g.save()
+            new_games.append(g)
+
+        games = new_games
 
     if request.method == "POST":
 
@@ -27,6 +104,7 @@ def index(request):
         form = MakeaBet(request.POST)
 
         if form.is_valid():
+            # FAZER UMA BET
             money = form.cleaned_data['money']
             user = User.objects.get(username=user_username)
             profile = Profile.objects.get(user=user)
@@ -62,6 +140,8 @@ def index(request):
     return render(request, "index.html", {'games' : games, 'teams' : teams, "form": form})
 
 def login_user(request):
+   global user_username
+
    if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
@@ -70,6 +150,7 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            user_username = username
             return redirect('/')
         else:
             messages.success(request, ("There was an error loggin in"))
@@ -79,7 +160,9 @@ def login_user(request):
         return render(request, "login.html", {})
 
 def logout_user(request):
+    global user_username
     logout(request)
+    user_username = "ninguem"
     return redirect('/')
 
 def addmoney(request):

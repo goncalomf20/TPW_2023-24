@@ -1,5 +1,5 @@
 
-
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import UserManager
 # Create your models here.
@@ -25,19 +25,24 @@ class Game(models.Model):
     odd1win = models.FloatField(max_length=20)
     odd2win = models.FloatField(max_length=20)
     oddDraw = models.FloatField(max_length=20, default=2)
+    game_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"Game between {self.team1} and {self.team2} on {self.game_date}"
 
 class Game_betted(models.Model):
     game = models.ForeignKey(Game, related_name='game', on_delete=models.CASCADE)
     betted = models.CharField(max_length=70, default="")
 
     def __str__(self):
-        return f"{self.betted}'"
+        return f"{self.betted}"
 
 class Bet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # User who placed the bet
     games = models.ManyToManyField(Game_betted, related_name='bets')  # Multiple games associated with the bet
     money_invested = models.DecimalField(max_digits=10, decimal_places=2)  # The amount of money invested in the bet
     timestamp = models.DateTimeField(auto_now_add=True)  # Timestamp when the bet is placed
+    checked = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.user.username}'s Bet ({self.timestamp})"
