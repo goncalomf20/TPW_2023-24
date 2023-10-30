@@ -441,13 +441,40 @@ https://templatemo.com/tm-574-mexant
         $("#id_money").on("change", onFormMoneyChange);
     });
 
-    var data = document.getElementById('data').innerText
+    var game_date = document.getElementById('data').innerText;
+    var data = game_date.substring(game_date.length - 30, game_date.length);
 
-    console.log(data)
+    var dia = data.substring(0,8)
+
+    var hora = data.substring(9,17)
+
+    var diaParts = dia.split('-');
+    var horaParts = hora.split(':');
+     console.log(diaParts, horaParts)
+
+    var diaTimestamp = new Date(
+      "20" + diaParts[0], // Assuming it's 20YY format
+      diaParts[1] - 1,   // Subtract 1 from the month (JavaScript months are 0-based)
+      diaParts[2],
+      horaParts[0],
+      horaParts[1],
+      horaParts[2]
+    ).getTime() / 1000;
+
+    console.log(dia, "Timestamp do dia:", diaTimestamp);
+
+
+    var reload_time = diaTimestamp + 30
     function recarregarPagina() {
-        location.reload();
+        var currentTimestamp = parseInt(Date.now() / 1000);
+        console.log(currentTimestamp, reload_time)
+        if (reload_time == currentTimestamp){
+            location.reload()
+        }
+
     }
-    setInterval(recarregarPagina, 60*6000);
+
+    setInterval(recarregarPagina, 1000);
 </script>
 
 

@@ -29,7 +29,7 @@ class Game(models.Model):
     game_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return f"Game between {self.team1} and {self.team2} on {self.game_date}, win: {self.win}"
+        return f"Game between {self.team1} and {self.team2}, win: {self.win}, on {self.game_date}"
 
 class Game_betted(models.Model):
     game = models.ForeignKey(Game, related_name='game', on_delete=models.CASCADE)

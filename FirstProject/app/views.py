@@ -52,7 +52,7 @@ def index(request):
 
     result = []
     #os jogos vão mudar todos os dias, para teste 1 mins
-    if int(timezone.now().timestamp()) - int(games[len(games)-1].game_date.timestamp()) >= 60*60:
+    if int(timezone.now().timestamp()) - int(games[len(games)-1].game_date.timestamp()) >= 30:
 
         for g in Game.objects.filter(win="waiting"):
             win_probability_team1 = 1 / g.odd1win  # Probability of team1 winning
