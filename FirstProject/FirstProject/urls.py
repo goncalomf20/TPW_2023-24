@@ -28,7 +28,7 @@ urlpatterns = [
     path('logout', views.logout_user, name="logout"),
     path('register/', views.register_user, name="register"),
     path('addmoney/' , views.addmoney, name="addmoney"),
-    path('addmoney/' , views.addmoney, name="addmoney"),
+    path('usrdetails/', views.usrdetails, name="usrdetails")
 
 
 ]

@@ -41,9 +41,9 @@ def index(request):
 
         new_games = []
         for idx in range(0, len(random_teams), 2):
-            odd1win = round(random.uniform(1.1, 10.0), 1)  # Generate a random float between 1.0 and 10.0
+            odd1win = round(random.uniform(1.1, 5.0), 1)  # Generate a random float between 1.0 and 10.0
             odd2win = round(random.uniform(1.1, 10.0), 1)
-            oddDraw = round(random.uniform(1.1, 10.0), 1)
+            oddDraw = round(random.uniform(1.1, 5.0), 1)
             g = Game(team1=random_teams[idx], team2=random_teams[idx + 1], odd1win=odd1win, odd2win=odd2win, oddDraw=oddDraw, game_date=timezone.now())
             g.save()
             new_games.append(g)
@@ -277,3 +277,6 @@ def addmoney(request):
         visa_form = CreateVisaForm()
 
     return render(request, "addmoney.html", {"visa_form": visa_form})
+
+def usrdetails(request):
+    return render(request,"usrdetails.html", {})
