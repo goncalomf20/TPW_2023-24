@@ -24,6 +24,7 @@ def index(request):
     games = Game.objects.all()
     teams = Team.objects.all()
 
+    #pelas equipas saber o nr de jogos possiveis
     if len(teams) % 2 == 0:
         nr_games = len(teams) // 2
     else:
@@ -31,6 +32,7 @@ def index(request):
 
     if len(games) >= nr_games:
         games = games[(len(games) - nr_games):]
+
 
     if len(games) == 0:
         random_teams = list(teams)
@@ -106,8 +108,9 @@ def index(request):
 
                 final_odd = 1
                 ganhou = True
+
                 for betted_game in bet.games.all():
-                    result.append(betted_game)
+
 
                     if betted_game.game.win != betted_game.betted:
                         ganhou = False
@@ -130,7 +133,7 @@ def index(request):
                     bet.checked = 2
                     bet.save()
 
-
+                result.append(bet)
 
         random_teams = list(teams)
         random.shuffle(random_teams)

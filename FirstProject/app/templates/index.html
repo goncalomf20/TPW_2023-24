@@ -22,6 +22,7 @@
 <link rel="stylesheet" href="{% static 'assets/css/templatemo-574-mexant.css' %}">
 <link rel="stylesheet" href="{% static 'assets/css/owl.css' %}">
 <link rel="stylesheet" href="{% static 'assets/css/animate.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/modal.css' %}">
 <!-- <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"> -->
 
 <!--
@@ -166,20 +167,48 @@ https://templatemo.com/tm-574-mexant
     </div>
 </section>
 
-
-  {% if request.user.is_authenticated %}
-
-            {% if resultados %}
-                   <ul>
-                        {% for item in resultados %}
-                            <li>Game: {{ item.game}}</li>
-                            <li>Your bet: {{ item.betted }}</li>
+<div id="betResultsModal" class="modal" >
+  <div class="modal-content">
+    <span class="close" id="closeModal">&times;</span>
+    <h2>Your Bet Results</h2>
+    <div id="betResultsContent">
+        <ul>
+            {% for bet in resultados %}
+                <li>
+                    {{ bet.checked }} {{ bet }}
+                    <button class="btn btn-link" type="button" onclick="toggleGames({{ forloop.counter }})">
+                        Show Games
+                    </button>
+                    <ul id="games{{ forloop.counter }}" style="display: none">
+                        {% for game in bet.games.all %}
+                            <li style="background-color: {% if game.game.win == game.betted %}greenyellow{% else %}red{% endif %}">
+                                {{ game.game }} {{ game.betted }}
+                            </li>
                         {% endfor %}
                     </ul>
-            {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
 
 
-  <section class="about-us" id="about"   >
+
+    </div>
+  </div>
+</div>
+
+
+   {% if resultados %}
+       <p style="display: none" id="show">{{ resultados }}</p>
+      <!--  <ul>
+            {% for item in resultados %}
+            <li>Game: {{ item.game}}</li>
+            <li>Your bet: {{ item.betted }}</li>
+            {% endfor %}
+       </ul> -->
+   {% endif %}
+
+
+  <section class="about-us" id="about">
     <div class="container">
       <div class="row">
         <div class="col-lg-6 offset-lg-3">
@@ -211,17 +240,23 @@ https://templatemo.com/tm-574-mexant
               <div class="right-content">
                 <h4>Make a bet</h4>
                 <h4 id="profit"></h4>
+
+
                  <div class="green-button">
+
                     <form method="post">
                         {% csrf_token %}
                         <input type="hidden" name="bet" id="bet">
                         <input type="hidden" name="user" value="{{ user.username }}">
                         <h4 id="form_money">{{ form.as_p }}</h4>
                          <p id="warning" style="display: none; color: red "></p>
+                         {% if request.user.is_authenticated %}
                         <button id="button-money" type="submit" id="form-submit" class="btn-primary">Submit Now</button>
+                         {% endif %}
                     </form>
 
                 </div>
+
               </div>
          </div>
 
@@ -230,33 +265,8 @@ https://templatemo.com/tm-574-mexant
     </div>
 
   </section>
-  {% else %}
-      <section class="simple-cta">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-5">
-              <h4>You need to be <em>logged in</em> to <strong>bet</strong></h4>
-            </div>
-            <div class="col-lg-7">
-              <div class="buttons">
-                <div class="green-button">
-                  <a href="{% url 'login' %}">Login</a>
-                </div>
-                <div class="orange-button">
-                  <a href="{% url 'register' %}">Signin</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-  {% endif %}
-
-
-
-
-  <section class="calculator">
+<section class="calculator">
     <div class="container">
       <div class="row">
         <div class="col-lg-7">
@@ -315,7 +325,7 @@ https://templatemo.com/tm-574-mexant
     </div>
   </section>
 
-  <footer>
+<footer>
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
@@ -326,6 +336,7 @@ https://templatemo.com/tm-574-mexant
       </div>
     </div>
   </footer>
+
 {% endblock %}
   <!-- Scripts -->
 <!-- Bootstrap core JavaScript -->
@@ -395,7 +406,11 @@ https://templatemo.com/tm-574-mexant
       console.log(total_odd)
   }
 
-    var user_money = document.getElementById('money').innerHTML
+    var user_m = document.getElementById('money')
+    if (user_m !== null) {
+        var user_money = user_m.innerHTML
+    }
+
 
     function onFormMoneyChange() {
         var money_to_bet = parseFloat($("#id_money").val());
@@ -411,24 +426,33 @@ https://templatemo.com/tm-574-mexant
             warning.style.display = 'block';
             warning.textContent = "The value of the bet should not be negative";
             expectation.style.display = 'none';
-            document.getElementById('button-money').style.display = 'none'
+            if (document.getElementById('button-money') !== null){
+                document.getElementById('button-money').style.display = 'none'
+            }
+
 
         } else if (total_odd == 1){
             warning.style.display = 'block';
             warning.textContent = "The bet wasn't made yet";
             expectation.style.display = 'none';
-            document.getElementById('button-money').style.display = 'none'
+             if (document.getElementById('button-money') !== null){
+                document.getElementById('button-money').style.display = 'none'
+            }
         } else if (money_to_bet > user_money1){
             warning.style.display = 'block';
             warning.textContent = "You don't have that amount in your account";
             expectation.style.display = 'block';
             var final = total_odd * money_to_bet;
             expectation.textContent = "Possible gains: " + final;
-            document.getElementById('button-money').style.display = 'none'
+            if (document.getElementById('button-money') !== null){
+                document.getElementById('button-money').style.display = 'none'
+            }
         } else {
             warning.style.display = 'none';
             expectation.style.display = 'block';
-            document.getElementById('button-money').style.display = 'block'
+             if (document.getElementById('button-money') !== null){
+                document.getElementById('button-money').style.display = 'block'
+            }
             document.getElementById('bet').value = JSON.stringify(apostas)
             console.log(document.getElementById('bet').value)
             var final = total_odd * money_to_bet;
@@ -453,8 +477,8 @@ https://templatemo.com/tm-574-mexant
      console.log(diaParts, horaParts)
 
     var diaTimestamp = new Date(
-      "20" + diaParts[0], // Assuming it's 20YY format
-      diaParts[1] - 1,   // Subtract 1 from the month (JavaScript months are 0-based)
+      "20" + diaParts[0],
+      diaParts[1] - 1,
       diaParts[2],
       horaParts[0],
       horaParts[1],
@@ -467,14 +491,50 @@ https://templatemo.com/tm-574-mexant
     function recarregarPagina() {
         var currentTimestamp = parseInt(Date.now() / 1000);
         console.log(currentTimestamp, reload_time)
+        // ideal seria tar <= mas o modal não funciona
         if (reload_time == currentTimestamp){
             location.reload()
         }
-
     }
     setInterval(recarregarPagina, 1000);
-</script>
 
+    var show = document.getElementById("show")
+
+    if (show !== null) {
+        openBetResultsModal(show.innerText)
+    }
+    function openBetResultsModal(results) {
+          const modal = document.getElementById("betResultsModal");
+          const closeModalButton = document.getElementById("closeModal");
+          const betResultsContent = document.getElementById("betResultsContent");
+
+          modal.style.display = "block";
+
+          // Close the modal when the close button is clicked
+          closeModalButton.addEventListener("click", () => {
+            modal.style.display = "none";
+          });
+
+          // Close the modal when clicking outside the modal content
+          window.addEventListener("click", event => {
+            if (event.target === modal) {
+              modal.style.display = "none";
+            }
+          });
+
+          // Close the modal when the user presses the Escape key
+          document.addEventListener("keydown", event => {
+            if (event.key === "Escape") {
+              modal.style.display = "none";
+            }
+          });
+    }
+
+    function toggleGames(counter) {
+        const games = document.getElementById("games" + counter);
+        games.style.display = games.style.display === "none" ? "block" : "none";
+    }
+</script>
 
   </body>
 </html>
