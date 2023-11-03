@@ -28,9 +28,10 @@ urlpatterns = [
     path('logout', views.logout_user, name="logout"),
     path('register/', views.register_user, name="register"),
     path('addmoney/' , views.addmoney, name="addmoney"),
-    path('usrdetails/', views.usrdetails, name="usrdetails")
-
-
+    path('usrdetails/', views.usrdetails, name="usrdetails"),
+    path('admin_page', views.admin_page, name="admin_page"),
+    path('delete_team/<str:team_name>/', views.delete_team, name='delete_team'),
+    path('delete_game/<str:game_identifier>/', views.delete_game, name='delete_game'),
 ]
 
 if settings.DEBUG:

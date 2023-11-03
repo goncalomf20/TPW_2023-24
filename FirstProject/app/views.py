@@ -208,7 +208,11 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+
             user_username = username
+
+            if user.is_staff:
+                return redirect('admin_page')
             return redirect('/')
         else:
             messages.success(request, ("There was an error loggin in"))
@@ -283,3 +287,31 @@ def addmoney(request):
 
 def usrdetails(request):
     return render(request,"usrdetails.html", {})
+
+def admin_page(request):
+
+    games = Game.objects.all().order_by("-game_date")
+    teams = Team.objects.all()
+    profiles = Profile.objects.all()
+    betted_games = Game_betted.objects.all()
+    bets = Bet.objects.all()
+    ts = {"games": games, "teams": teams, "profiles" : profiles, "betted_games" : betted_games, "bets" : bets}
+    return render(request, "admin_page.html", ts)
+
+def delete_team(request, team_name):
+    try:
+        team = Team.objects.get(teamName=team_name)
+        team.delete()
+    except Team.DoesNotExist:
+        pass  # Handle if the team doesn't exist
+    return redirect('admin_page')  # Redirect to the admin page or a different page
+
+def delete_game(request, game_identifier):
+    try:
+        game = Game.objects.get(game_date=game_identifier)
+
+        game.delete()
+    except Game.DoesNotExist:
+        pass  # Handle if the game doesn't exist
+
+    return redirect('admin_page')
