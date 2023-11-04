@@ -2,6 +2,8 @@ import json
 import random
 from decimal import Decimal
 import time
+
+from django.contrib.auth.hashers import make_password
 from django.utils import timezone
 from app.models import Team, Game, Bet, comments, Profile, Game_betted, PaymentMethod
 from django.contrib.auth.models import User
@@ -11,7 +13,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login
 from django.contrib import messages
-from .forms import CreateUserForm, MakeaBet, CreateVisaForm
+from .forms import CreateUserForm, MakeaBet, CreateVisaForm, TeamForm
 from django.contrib.auth.forms import UserCreationForm
 from django.views.decorators.csrf import csrf_protect
 
@@ -295,7 +297,8 @@ def admin_page(request):
     profiles = Profile.objects.all()
     betted_games = Game_betted.objects.all()
     bets = Bet.objects.all()
-    ts = {"games": games, "teams": teams, "profiles" : profiles, "betted_games" : betted_games, "bets" : bets}
+    team_form = TeamForm()
+    ts = {"games": games, "teams": teams, "profiles" : profiles, "betted_games" : betted_games, "bets" : bets, "team_form": team_form}
     return render(request, "admin_page.html", ts)
 
 def delete_team(request, team_name):
@@ -315,3 +318,104 @@ def delete_game(request, game_identifier):
         pass  # Handle if the game doesn't exist
 
     return redirect('admin_page')
+
+def search_games(request):
+    teams = Team.objects.all()
+    profiles = Profile.objects.all()
+    betted_games = Game_betted.objects.all()
+    bets = Bet.objects.all()
+
+    search_query = request.GET.get('search_query', '')
+
+    games = Game.objects.filter(
+        win__icontains=search_query,  # Case-insensitive search in the 'win' field
+    ) | Game.objects.filter(
+        team1__teamName__icontains=search_query,  # Case-insensitive search in the 'team1' field
+    ) | Game.objects.filter(
+        team2__teamName__icontains=search_query,  # Case-insensitive search in the 'team2' field
+    )
+    games = games.order_by("-game_date")
+    ts = {"games": games, "teams": teams, "profiles": profiles, "betted_games": betted_games, "bets": bets}
+    return render(request, 'admin_page.html', ts)
+
+def update_game_odds(request, game_id):
+    if request.method == 'POST':
+        try:
+            game = Game.objects.get(id=game_id)
+            game.odd1win = request.POST['odd1win']
+            game.oddDraw = request.POST['oddDraw']
+            game.odd2win = request.POST['odd2win']
+            game.save()
+        except Game.DoesNotExist:
+            pass  # Handle if the game doesn't exist
+
+    return redirect('admin_page')
+
+
+def add_team(request):
+    if request.method == 'POST':
+        team_form = TeamForm(request.POST)
+        if team_form.is_valid():
+            team_name = team_form.cleaned_data['Team_name']
+            team_logo = team_form.cleaned_data['Team_logo']
+            team = Team(teamName=team_name, teamLogo=team_logo)
+            team.save()
+
+    return redirect('admin_page')
+
+@csrf_protect
+def addadmin(request):
+
+    if request.method == "POST":
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            firstname = form.cleaned_data['first_name']
+            lastname = form.cleaned_data['last_name']
+            email = form.cleaned_data['email']
+            hashed_password = make_password(password)
+
+            user = User(username=username, password=hashed_password, email=email, first_name=firstname, last_name=lastname)
+            user.is_superuser = True
+            user.is_staff = True
+            user.save()
+            messages.success(request, ("Registration Sucessful"))
+
+    else:
+        form = CreateUserForm()
+
+    return render(request, "addadmin.html", {"form": form})
+
+def managebets(request):
+    betted_games = Game_betted.objects.all()
+    dic = {}
+    for bet in betted_games:
+
+        bol = False
+        for info in dic.keys():
+            if info.game == bet.game and info.betted == bet.betted:
+                bol = True
+                bet_rep = info
+
+        if bol:
+            dic[bet_rep] += 1
+        else:
+            dic[bet] = 1
+
+    print(dic)
+
+    return render(request, "managebets.html", {'betted_games':dic})
+
+def manageusers(request):
+    admin_users = User.objects.filter(is_staff=True)
+    casual_users = User.objects.filter(is_staff=False)
+
+    dic = {}
+
+    for user in casual_users:
+        dic[user.username] = Bet.objects.filter(user=user)
+    print(dic)
+    ts = {'admin_users': admin_users, 'casual_users':casual_users, 'user_bets': dic}
+    return render(request, 'manageusers.html', ts)

@@ -32,6 +32,12 @@ urlpatterns = [
     path('admin_page', views.admin_page, name="admin_page"),
     path('delete_team/<str:team_name>/', views.delete_team, name='delete_team'),
     path('delete_game/<str:game_identifier>/', views.delete_game, name='delete_game'),
+    path('search_games/', views.search_games, name='search_games'),
+    path('update_game_odds/<int:game_id>/', views.update_game_odds, name='update_game_odds'),
+    path('add_team/', views.add_team, name='add_team'),
+    path('addadmin/', views.addadmin, name="addadmin"),
+    path('managebets/', views.managebets, name="managebets"),
+    path('manageusers/', views.manageusers, name="manageusers")
 ]
 
 if settings.DEBUG:

@@ -28,9 +28,6 @@ class Game(models.Model):
     win = models.CharField(max_length=70, default="waiting")
     game_date = models.DateTimeField(default=timezone.now)
 
-    def get_game_identifier(self):
-        return f"Game between {self.team1} and {self.team2}, win: {self.win}, on {self.game_date}"
-
     def __str__(self):
         return f"Game between {self.team1} and {self.team2}, win: {self.win}, on {self.game_date}"
 

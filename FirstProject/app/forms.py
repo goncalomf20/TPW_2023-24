@@ -2,12 +2,12 @@ from django.contrib.auth.models import UserManager
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import Team
 
 class CreateUserForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
-
 
 class MakeaBet(forms.Form):
     money = forms.DecimalField(max_digits=10, decimal_places=1)
@@ -18,3 +18,10 @@ class CreateVisaForm(forms.Form):
     card_holders_name = forms.CharField()
     expiration_code = forms.CharField()
     cvv = forms.IntegerField(max_value=999)
+
+class TeamForm(forms.Form):
+    Team_name = forms.CharField()
+    Team_logo = forms.CharField()
+    class Meta:
+        model = Team
+        fields = ['teamName', 'teamLogo']

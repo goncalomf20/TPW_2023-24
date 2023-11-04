@@ -1,0 +1,260 @@
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <title>Bets </title>
+
+    <!-- Bootstrap core CSS -->
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="{% static 'assets/css/fontawesome.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/templatemo-574-mexant.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/owl.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/formregister.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/modal.css' %}">
+</head>
+<body>
+    {% if form.errors %}
+        <p>ERROR</p>
+    {% endif %}
+  <!-- ***** Header Area Start ***** -->
+    <header class="header-area header-sticky" style="background-color: #181d30;" >
+      <div class="container">
+          <div class="row">
+              <div class="col-12">
+                  <nav class="main-nav">
+                      <!-- ***** Logo Start ***** -->
+
+                      <!-- ***** Logo End ***** -->
+                      <!-- ***** Menu Start ***** -->
+                      <ul class="nav">
+                        <li class="scroll-to-section"><a href="{% url 'admin_page' %}" class="active">Home</a></li>
+                        <li class="scroll-to-section"><a href="{% url 'admin_page' %}#services">All games</a></li>
+                        <li class="scroll-to-section"><a href="{% url 'admin_page' %}#about">All Teams</a></li>
+                        <li><a href="{% url 'addadmin' %}">Add new Admin</a></li>
+                        <li><a href="{% url 'managebets' %}">Check Bets</a></li>
+                        <li><a href="{% url 'manageusers' %}" >Manage Users</a></li>
+                        <li class="has-sub">
+                            <a href="javascript:void(0)">{{ request.user.username }}</a>
+                            <ul class="sub-menu">
+                                <li><a href="{% url 'addmoney' %}">Edit Profile</a></li>
+
+                            </ul>
+                        </li>
+                        <li class="scroll-to-section"><a href="{% url 'logout' %}">Logout</a></li>
+                    </ul>
+
+                      <a class='menu-trigger'>
+                          <span>Menu</span>
+                      </a>
+                      <!-- ***** Menu End ***** -->
+                  </nav>
+              </div>
+          </div>
+      </div>
+  </header>
+  <!-- ***** Header Area End ***** -->
+
+<div class="container">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div class="row" id="admin_users">
+        <div class="col-lg-6 offset-lg-3">
+            <div class="section-heading">
+
+                <h4>All Admin Users</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            {% if admin_users %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Firstname</th>
+                            <th>Lastname</th>
+                        </tr>
+                    </thead>
+                   <tbody>
+                        {% for ad_user in admin_users %}
+                            <tr>
+                                <td>{{ ad_user.username }}</td>
+                                <td>{{ ad_user.first_name }}</td>
+                                <td>{{ ad_user.last_name }}</td>  <!-- Display the key itself -->
+                            </tr>
+                        {% endfor %}
+                   </tbody>
+
+                </table>
+            {% else %}
+                <p>There are no Admin Users yet.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row" id="casual_users">
+            <div class="col-lg-6 offset-lg-3">
+            <div class="section-heading">
+                <h6>Manage</h6>
+                <h4>All Casual Users</h4>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            {% if casual_users %}
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Firstname</th>
+                            <th>Lastname</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                   <tbody>
+                        {% for ad_user in casual_users %}
+                            <tr>
+                                <td>{{ ad_user.username }}</td>
+                                <td>{{ ad_user.first_name }}</td>
+                                <td>{{ ad_user.last_name }}</td>
+                                <td>
+                                    <button class="btn btn-primary" data-toggle="modal" onclick="openBetResultsModal() ">
+                                        Show Bets
+                                    </button>
+                                </td>
+                            </tr>
+
+
+                            <div id="betResultsModal" class="modal" >
+                              <div class="modal-content">
+                                <span class="close" id="closeModal">&times;</span>
+                                <h2 id="name">{{ ad_user.username }}'s Bets</h2>
+                                <div id="betResultsContent">
+                                     {% for user, bet in user_bets.items  %}
+                                        {% if user == ad_user.username %}
+
+                                            {% for btd in bet %}
+                                                 <li>
+                                                    {{ btd }}
+                                                    <button class="btn btn-link" type="button" onclick="toggleGames('{{ btd.timestamp|date:"s" }} seconds {{ btd.timestamp|date:"u" }} microseconds')">
+                                                        Show Games
+                                                    </button>
+
+
+                                                    <ul id="{{ btd.timestamp|date:"s" }} seconds {{ btd.timestamp|date:"u" }} microseconds" style="display: none">
+
+                                                        {% for game in btd.games.all %}
+                                                             <li style="background-color: {% if game.game.win == game.betted %}greenyellow{% else %}red{% endif %}">
+                                                                {{ game.game }} {{ game.betted }}
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </li>
+                                            {% endfor %}
+                                        {% endif %}
+                                     {% endfor %}
+                                </div>
+                              </div>
+                            </div>
+
+                        {% endfor %}
+                   </tbody>
+
+                </table>
+            {% else %}
+                <p>There are no Casual Users yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+
+  <footer style="position: fixed; bottom: 0;width: 100%;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <p>Copyright © 2022 Mexant Co., Ltd. All Rights Reserved.
+
+          <br>Designed by <a title="CSS Templates" rel="sponsored" href="https://templatemo.com" target="_blank">TemplateMo</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+<!-- Bootstrap core JavaScript -->
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+<script src="{% static 'assets/js/isotope.min.js' %}"></script>
+<script src="{% static 'assets/js/owl-carousel.js' %}"></script>
+
+<script src="{% static 'assets/js/tabs.js' %}"></script>
+<script src="{% static 'assets/js/swiper.js' %}"></script>
+<script src="{% static 'assets/js/custom.js' %}"></script>
+<script>
+    function toggleGames(time) {
+        console.log(time)
+        const games = document.getElementById(time);
+        games.style.display = games.style.display === "none" ? "block" : "none";
+    }
+    function openBetResultsModal() {
+
+          const modal = document.getElementById("betResultsModal");
+          const closeModalButton = document.getElementById("closeModal");
+          const betResultsContent = document.getElementById("betResultsContent");
+
+          modal.style.display = "block";
+          document.getElementById("admin_users").style.display = "none";
+          document.getElementById("casual_users").style.display = "none";
+          // Close the modal when the close button is clicked
+          closeModalButton.addEventListener("click", () => {
+            modal.style.display = "none";
+            document.getElementById("admin_users").style.display = "block";
+            document.getElementById("casual_users").style.display = "block";
+          });
+
+          // Close the modal when clicking outside the modal content
+          window.addEventListener("click", event => {
+            if (event.target === modal) {
+              modal.style.display = "none";
+              document.getElementById("admin_users").style.display = "block";
+              document.getElementById("casual_users").style.display = "block";
+            }
+          });
+
+          // Close the modal when the user presses the Escape key
+          document.addEventListener("keydown", event => {
+            if (event.key === "Escape") {
+              modal.style.display = "none";
+              document.getElementById("admin_users").style.display = "block";
+              document.getElementById("casual_users").style.display = "block";
+            }
+          });
+    }
+</script>
+
+
+</body>
+{% endblock %}
+</html>

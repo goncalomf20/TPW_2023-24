@@ -47,27 +47,22 @@ https://templatemo.com/tm-574-mexant
 
                       <!-- ***** Logo End ***** -->
                       <!-- ***** Menu Start ***** -->
-                      <ul class="nav">
-                          <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
-                          <li class="scroll-to-section"><a href="#services">All games</a></li>
-                          <li class="scroll-to-section"><a href="#about">Teams</a></li>
-                          {% if request.user.is_authenticated %}
+                        <ul class="nav">
+                            <li class="scroll-to-section"><a href="{% url 'admin_page' %}" class="active">Home</a></li>
+                            <li class="scroll-to-section"><a href="{% url 'admin_page' %}#services">All games</a></li>
+                            <li class="scroll-to-section"><a href="{% url 'admin_page' %}#about">All Teams</a></li>
+                            <li><a href="{% url 'addadmin' %}">Add new Admin</a></li>
+                            <li><a href="{% url 'managebets' %}">Check Bets</a></li>
+                            <li><a href="{% url 'manageusers' %}" >Manage Users</a></li>
                             <li class="has-sub">
-                              <a href="javascript:void(0)">{{ request.user.username }}</a>
-                              <ul class="sub-menu">
-                                  <li><a href="usrdetails">Details</a></li>
-                                  <li><a href="addmoney">Add Money</a></li>
-                                  <li><a href="contact-us.html">Add comment</a></li>
-                              </ul>
+                                <a href="javascript:void(0)">{{ request.user.username }}</a>
+                                <ul class="sub-menu">
+                                    <li><a href="{% url 'addmoney' %}">Edit Profile</a></li>
+
+                                </ul>
                             </li>
-
-                              <li class="scroll-to-section"><a  href="{% url 'logout' %}">Logout</a></li>
-                          {% else %}
-
-                              <li class="scroll-to-section"><a  href="{% url 'login' %}">Login</a></li>
-                              <li><a  href="{% url 'register' %}">Sign in</a></li>
-                          {% endif %}
-                      </ul>
+                            <li class="scroll-to-section"><a href="{% url 'logout' %}">Logout</a></li>
+                        </ul>
                       <a class='menu-trigger'>
                           <span>Menu</span>
                       </a>
@@ -114,10 +109,23 @@ https://templatemo.com/tm-574-mexant
   <!-- ***** Main Banner Area End ***** -->
 
 <section class="services" id="services" >
-
-
     <div class="container">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+              <div class="section-heading">
+                  <br>
+                  <br>
+                <h6>Manage</h6>
+                <h4>All Games</h4>
+              </div>
+            </div>
 
+        </div>
+
+        <form method="get" action="{% url 'search_games' %}">
+            <input type="text" name="search_query" placeholder="Search by winner, team1, or team2">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
 
         <div class="row">
 
@@ -125,18 +133,21 @@ https://templatemo.com/tm-574-mexant
                 <div class="col-lg-4"> <!-- Dividir em duas colunas -->
                     <div class="service-item text-center">
                         <h4>{{ game.win }}</h4>
+
                         <form method="post" action="{% url 'delete_game' game.game_date %}">
                             {% csrf_token %}
                         <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
+
+
                         <div class="row"> <!-- Nova linha aninhada -->
                             <div class="col-md-4"> <!-- Dividir a primeira coluna em três -->
                                 <div>
                                     <img  style="width: 123px; height: 138px" src="{% static 'assets/images/' %}{{ game.team1.teamLogo }}" alt="">
                                     <h5>
-                                        <button class="btn-success">
+                                       <!-- <button class="btn-success">
                                             <h6 style="color: white">{{ game.odd1win }}</h6>
-                                        </button>
+                                        </button> -->
                                         {{ game.team1 }}
                                     </h5>
                                 </div>
@@ -145,10 +156,10 @@ https://templatemo.com/tm-574-mexant
                                 <div>
                                     <img  style="width: 80px;height: auto; padding-top: 40px" src="{% static 'assets/images/close.png' %}" alt="">
                                     <h5 style="padding-top: 15px">
-                                        <button class="btn-success">
+                                        <!--<button class="btn-success">
 
                                             <h6 style="color: white">{{ game.oddDraw }}</h6>
-                                        </button>
+                                        </button> -->
                                     </h5>
                                 </div>
                             </div>
@@ -157,13 +168,32 @@ https://templatemo.com/tm-574-mexant
                                     <img style="width: 123px; height: 138px" src="{% static 'assets/images/' %}{{ game.team2.teamLogo }}" alt="">
                                     <h5>
                                         {{ game.team2 }}
-                                        <button class="btn-success">
+                                      <!--  <button class="btn-success">
                                             <h6 style="color: white">{{ game.odd2win }}</h6>
-                                        </button>
+                                        </button> -->
                                     </h5>
                                 </div>
                             </div>
                         </div>
+
+                        <form method="post" action="{% url 'update_game_odds' game.id %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="odd1win">Odd for {{ game.team1 }}:</label>
+                                <input type="number" name="odd1win" value="{{ game.odd1win }}" step="0.01" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="oddDraw">Odd for Draw:</label>
+                                <input type="number" name="oddDraw" value="{{ game.oddDraw }}" step="0.01" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="odd2win">Odd for {{ game.team2 }}:</label>
+                                <input type="number" name="odd2win" value="{{ game.odd2win }}" step="0.01" class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Odds</button>
+                        </form>
+
+
                     </div>
                 </div>
             {% endfor %}
@@ -172,7 +202,7 @@ https://templatemo.com/tm-574-mexant
     </div>
 </section>
 
-  <section class="about-us" id="about">
+<section class="about-us" id="about">
     <div class="container">
       <div class="row">
         <div class="col-lg-6 offset-lg-3">
@@ -184,16 +214,25 @@ https://templatemo.com/tm-574-mexant
 
       </div>
 
+      <div class="row justify-content-center" >
+            <div class="col-lg-3">
+                <div class="service-item text-center">
+                    <h4>Add New Team</h4>
+                    <form method="post" action="{% url 'add_team' %}">
+                        {% csrf_token %}
+                        {{ team_form.as_p }}
+                        <button type="submit" class="btn btn-primary">Add Team</button>
+                    </form>
+                </div>
+            </div>
+       </div>
        <div class="row">
 
             {% for team in teams %}
                 <div class="col-lg-3">
                     <div class="service-item text-center">
                         <h4>{{ team.teamName }}</h4>
-                        <form method="post" action="{% url 'delete_team' team.teamName %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
+
                         <div class="row"> <!-- Nova linha aninhada -->
                             <div class="col-md-12"> <!-- Dividir a primeira coluna em três -->
                                 <div>
@@ -202,6 +241,11 @@ https://templatemo.com/tm-574-mexant
                             </div>
 
                         </div>
+                        <form method="post" action="{% url 'delete_team' team.teamName %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                        <br>
                     </div>
                 </div>
 
@@ -209,9 +253,11 @@ https://templatemo.com/tm-574-mexant
 
         </div>
 
+
+
     </div>
 
-  </section>
+</section>
 
 <section class="calculator">
     <div class="container">
