@@ -52,6 +52,7 @@ class comments(models.Model):
     name = models.CharField(max_length=70, default="")
     email = models.EmailField()
     subject = models.CharField(max_length=100, default="")
+    comment = models.CharField(max_length=1000, default="")
     reason = models.CharField(max_length=300, default="")
 
 

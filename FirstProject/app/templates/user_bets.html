@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Bets</title>
+    <!-- Include Bootstrap CSS -->
+        {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+
+<!-- Additional CSS Files -->
+<link rel="stylesheet" href="{% static 'assets/css/fontawesome.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/templatemo-574-mexant.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/owl.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/animate.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/modal.css' %}">
+</head>
+<body>
+{% block content %}
+    {% if request.user.is_authenticated %}
+    <div class="container">
+        <h1 class="my-4">{{ request.user.username }}'s Bets</h1>
+        <div class="row">
+            {% for bet in user_bets %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Bet ID: {{ bet.id }}</h5>
+                            <p class="card-text">Bet Amount: ${{ bet.money_invested }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+</body>
+</html>

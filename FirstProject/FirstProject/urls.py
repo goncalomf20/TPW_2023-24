@@ -37,7 +37,8 @@ urlpatterns = [
     path('add_team/', views.add_team, name='add_team'),
     path('addadmin/', views.addadmin, name="addadmin"),
     path('managebets/', views.managebets, name="managebets"),
-    path('manageusers/', views.manageusers, name="manageusers")
+    path('manageusers/', views.manageusers, name="manageusers"),
+    path('user_bets/', views.user_bets, name='user_bets')
 ]
 
 if settings.DEBUG:

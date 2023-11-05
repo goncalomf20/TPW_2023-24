@@ -288,8 +288,25 @@ def addmoney(request):
     return render(request, "addmoney.html", {"visa_form": visa_form})
 
 def usrdetails(request):
-    return render(request,"usrdetails.html", {})
+    user = request.user  # Get the current logged-in user
+    context = {
+        'user': user,
 
+    }
+
+    if request.method == "POST":
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            user.email = form.cleaned_data['email']
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.save()
+
+            login(request, user)
+            messages.success(request, ("Update Sucessful"))
+            return redirect('/')
+    else:
+        return render(request,"usrdetails.html" , context)
 def admin_page(request):
 
     games = Game.objects.all().order_by("-game_date")
@@ -419,3 +436,8 @@ def manageusers(request):
     print(dic)
     ts = {'admin_users': admin_users, 'casual_users':casual_users, 'user_bets': dic}
     return render(request, 'manageusers.html', ts)
+
+def user_bets(request):
+    user = request.user
+    user_bets = Bet.objects.filter(user=user)  # Replace with the actual filtering logic
+    return render(request, 'user_bets.html', {'user_bets': user_bets})
