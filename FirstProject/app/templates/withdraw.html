@@ -14,7 +14,7 @@
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="{% static 'assets/css/fontawesome.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/templatemo-574-mexant.css' %}">
-    <link rel="stylesheet" href "{% static 'assets/css/owl.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/owl.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/animate.css' %}">
     <style>
         body {
@@ -185,7 +185,6 @@
           </div>
       </div>
   </header>
-
     {% if visa_form.errors %}
         <p>ERROR</p>
     {% endif %}
@@ -202,113 +201,26 @@
         </div>
     </div>
 
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Payment Methods:</h5>
-            <div class="payment-cards">
-                <!-- Add your payment methods here -->
-                <div class="payment-card" id="visaCard">
-                    <img src="" alt="Visa" onclick="openModal('visaForm')">
-                </div>
-                <div class="payment-card" id="masterCard">
-                    <img src="" alt="MasterCard" onclick="openModal('masterCardForm')">
-                </div>
+<div class="card">
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                <label for="{{ withdraw_form.amount.id_for_label }}" class="card-title"></label>
+                <input type="number" class="form-control" id="amount" name="amount" min="1" placeholder="Enter quantity" aria-label="Enter quantity" aria-describedby="withdrawButton">
             </div>
-        </div>
-    </div>
 
-    <!-- Modal for payment forms -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-
-            <div id="visaForm" class="form-container" style="display: none;">
-                <span class="close-button" onclick="closeModal('visaForm')">&times;</span>
-                 <div class="centered-content">
-                <h5>Visa Payment Form</h5>
- <form method="post">
-    {% csrf_token %}
-     <div class="form-group">
-        <label for="{{ visa_form.money.id_for_label }}">Value to Insert:</label>
-        {{ visa_form.money }}
-    </div>
-    <div class="form-group">
-        <label for="{{ visa_form.card_number.id_for_label }}">Card Number:</label>
-        {{ visa_form.card_number }}
-    </div>
-    <div class="form-group">
-        <label for="{{ visa_form.card_holders_name.id_for_label }}">Cardholder Name:</label>
-        {{ visa_form.card_holders_name }}
-    </div>
-    <div class="form-group">
-        <label for="{{ visa_form.expiration_code.id_for_label }}">Expiration Code:</label>
-        {{ visa_form.expiration_code }}
-    </div>
-    <div class="form-group">
-        <label for="{{ visa_form.cvv.id_for_label }}">CVV:</label>
-        {{ visa_form.cvv }}
-    </div>
-    <input type="submit" value="Submit">
-</form>
-                 </div>
+            <div class="input-group mb-3">
+                <label for="{{ withdraw_form.IBAN.id_for_label }}" class="card-title"></label>
+                <input type="text" class="form-control" id="IBAN" name="IBAN" placeholder="Enter IBAN" aria-label="Enter IBAN" aria-describedby="withdrawButton">
             </div>
-            <div id="masterCardForm" class="form-container" style="display: none;">
-                <span class="close-button" onclick="closeModal('masterCardForm')">&times;</span>
-                 <div class="centered-content">
-                <h5>MasterCard Payment Form</h5>
-                         <form method="post">
-    {% csrf_token %}
-     <div class="form-group">
-        <label for="{{ visa_form.money.id_for_label }}">Value to Insert:</label>
-        {{ visa_form.money }}
-    </div>
-    <div class="form-group">
-        <label for="{{ visa_form.card_number.id_for_label }}">Card Number:</label>
-        {{ visa_form.card_number }}
-    </div>
-    <div class="form-group">
-        <label for="{{ visa_form.card_holders_name.id_for_label }}">Cardholder Name:</label>
-        {{ visa_form.card_holders_name }}
-    </div>
-    <div class="form-group">
-        <label for="{{ visa_form.expiration_code.id_for_label }}">Expiration Code:</label>
-        {{ visa_form.expiration_code }}
-    </div>
-    <div class="form-group">
-        <label for="{{ visa_form.cvv.id_for_label }}">CVV:</label>
-        {{ visa_form.cvv }}
-    </div>
-    <input type="submit" value="Submit">
-</form>
-                 </div>
-            </div>
-            <div id="paypalForm" class="form-container" style="display: none;">
-                 <span class="close-button" onclick="closeModal('paypalForm')">&times;</span>
-                 <div class="centered-content">
-                <h5>PayPal Payment Form</h5>
-                        <form method="post">
-            <label for="paypalEmail">PayPal Email:</label>
-            <input type="text" id="paypalEmail" name="paypalEmail"><br>
 
-            <label for="paypalPassword">Password:</label>
-            <input type="password" id="paypalPassword" name="paypalPassword"><br>
-
-            <input type="submit" value="Pay">
+            <button type="submit" class="btn btn-primary" id="withdrawButton">Withdraw</button>
         </form>
-                 </div>
-            </div>
-        </div>
     </div>
-<footer style="position: fixed;width: 100%;bottom: 0">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <p>Copyright © 2022 Mexant Co., Ltd. All Rights Reserved.
+</div>
 
-          <br>Designed by <a title="CSS Templates" rel="sponsored" href="https://templatemo.com" target="_blank">TemplateMo</a></p>
-        </div>
-      </div>
-    </div>
-  </footer>
+
 
 
     <script>

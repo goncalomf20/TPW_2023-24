@@ -10,10 +10,10 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, logout
+from django.contrib.auth import authenticate, logout, update_session_auth_hash
 from django.contrib.auth import login
 from django.contrib import messages
-from .forms import CreateUserForm, MakeaBet, CreateVisaForm, TeamForm
+from .forms import CreateUserForm, MakeaBet, CreateVisaForm, TeamForm, UpdateUser, MakeComment, Withdraw
 from django.contrib.auth.forms import UserCreationForm
 from django.views.decorators.csrf import csrf_protect
 
@@ -155,11 +155,25 @@ def index(request):
         games = new_games
 
     if request.method == "POST":
+        comment_form = MakeComment(request.POST)
+        if comment_form.is_valid():
+            print(comment_form.cleaned_data)
+            name = comment_form.cleaned_data['name']
+            email = comment_form.cleaned_data['email']
+            subject = comment_form.cleaned_data['subject']
+            comment = comment_form.cleaned_data['comment']
+            reason = comment_form.cleaned_data['reason']
+
+            full_comment = comments(name=name, email=email, subject=subject, comment=comment, reason=reason)
+            full_comment.save()
+            return redirect('/')
 
         user_username = request.POST.get('user')
         bet = request.POST.get('bet')
         bet_data = json.loads(bet)
         print(user_username, bet_data)
+
+
 
         form = MakeaBet(request.POST)
 
@@ -196,8 +210,9 @@ def index(request):
             return redirect('/')
     else:
         form = MakeaBet()
+        comment_form = MakeComment()
 
-        return render(request, "index.html", {'games' : games, 'teams' : teams, "form": form, "resultados": result})
+        return render(request, "index.html", {'games' : games, 'teams' : teams, "form": form, "resultados": result, "comment_form":comment_form})
 
 def login_user(request):
    global user_username
@@ -441,3 +456,80 @@ def user_bets(request):
     user = request.user
     user_bets = Bet.objects.filter(user=user)  # Replace with the actual filtering logic
     return render(request, 'user_bets.html', {'user_bets': user_bets})
+
+def delete_user(request, username):
+    try:
+        user = User.objects.get(username=username)
+        user.delete()
+    except User.DoesNotExist:
+        pass  # Handle the case when the user does not exist
+
+    return redirect('manageusers')
+
+def usrdetails(request):
+    user = request.user  # Get the current logged-in user
+    context = {'user': user , "form": UpdateUser()}
+    if request.method == "POST":
+        form = UpdateUser(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+            user.email = form.cleaned_data['email']
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.password = make_password(form.cleaned_data['new_password'])
+            user.save()
+
+            messages.success(request, "Update Successful")
+            return redirect('/')  # Replace 'home' with the name of your homepage URL
+        else:
+            messages.error(request, "Update Failed. Please correct the errors.")
+
+    return render(request, "usrdetails.html", context)
+
+def update_admin(request):
+    user = request.user  # Get the current logged-in user
+    context = {'user': user , "form": UpdateUser()}
+    if request.method == "POST":
+        form = UpdateUser(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+            user.email = form.cleaned_data['email']
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.password = make_password(form.cleaned_data['new_password'])
+            user.save()
+
+            messages.success(request, "Update Successful")
+            return redirect('/')  # Replace 'home' with the name of your homepage URL
+        else:
+            messages.error(request, "Update Failed. Please correct the errors.")
+
+    return render(request, "update_admin.html", context)
+
+def withdraw(request):
+    if request.method == "POST":
+        withdraw_form = Withdraw(request.POST)
+        print(withdraw_form.is_valid())
+        if withdraw_form.is_valid():
+            print(withdraw_form.cleaned_data)
+            iban = withdraw_form.cleaned_data['IBAN']
+            # Get the user (assuming the user is logged in)
+            user = request.user
+            user_profile = user.profile
+
+            withdrawal_amount = withdraw_form.cleaned_data['amount']
+            if user_profile.money >= withdrawal_amount:
+                user_profile.money -= withdrawal_amount
+                user_profile.save()
+                messages.success(request, "Withdrawal successful!")
+            else:
+                messages.error(request, "Insufficient funds for withdrawal.")
+                return redirect('withdraw')  # Redirect to the withdrawal page
+
+            return redirect('/')  # Redirect to the home page or another appropriate page
+        else:
+            messages.error(request, "Invalid form data. Please check your input.")
+    else:
+        withdraw_form = Withdraw()
+
+    return render(request, "withdraw.html", {"withdraw_form": withdraw_form})

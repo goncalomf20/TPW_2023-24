@@ -21,7 +21,7 @@
 <body>
 {% block content %}
       <!-- ***** Header Area Start ***** -->
-  <header class="header-area header-sticky" style="background-color: #181d30;" >
+   <header class="header-area header-sticky" style="background-color: #181d30;" >
       <div class="container">
           <div class="row">
               <div class="col-12">
@@ -30,29 +30,22 @@
 
                       <!-- ***** Logo End ***** -->
                       <!-- ***** Menu Start ***** -->
-                      <ul class="nav">
-                          <li class="scroll-to-section"><a href="{% url 'index' %}" class="active">Home</a></li>
-                          <li class="scroll-to-section"><a href="{% url 'index' %}#services">Bets</a></li>
-                          <li class="scroll-to-section"><a href="{% url 'index' %}#about">Your Bet</a></li>
-                          {% if request.user.is_authenticated %}
+                        <ul class="nav">
+                            <li class="scroll-to-section"><a href="{% url 'admin_page' %}" class="active">Home</a></li>
+                            <li class="scroll-to-section"><a href="{% url 'admin_page' %}#services">All games</a></li>
+                            <li class="scroll-to-section"><a href="{% url 'admin_page' %}#about">All Teams</a></li>
+                            <li><a href="{% url 'addadmin' %}">Add new Admin</a></li>
+                            <li><a href="{% url 'managebets' %}">Check Bets</a></li>
+                            <li><a href="{% url 'manageusers' %}" >Manage Users</a></li>
                             <li class="has-sub">
-                              <a href="javascript:void(0)">{{ request.user.username }}</a>
-                              <ul class="sub-menu">
-                                  <li><a href="{% url 'usrdetails' %}">Details</a></li>
-                                  <li><a href="{% url 'addmoney' %}">Add Money</a></li>
-                                  <li><a href="{% url 'withdraw' %}">Withdraw</a></li>
-                              </ul>
+                                <a href="javascript:void(0)">{{ request.user.username }}</a>
+                                <ul class="sub-menu">
+                                    <li><a href="{% url 'update_admin' %}">Edit Profile</a></li>
+
+                                </ul>
                             </li>
-                                <li class="scroll-to-section"><a id="money" href="">{{ user.profile.money }}</a></li>
-                              <li class="scroll-to-section"><a  href="{% url 'logout' %}">Logout</a></li>
-                          {% else %}
-
-                              <li class="scroll-to-section"><a  href="{% url 'login' %}">Login</a></li>
-                              <li><a  href="{% url 'register' %}">Sign in</a></li>
-                          {% endif %}
-                      </ul>
-
-
+                            <li class="scroll-to-section"><a href="{% url 'logout' %}">Logout</a></li>
+                        </ul>
                       <a class='menu-trigger'>
                           <span>Menu</span>
                       </a>
@@ -62,7 +55,8 @@
           </div>
       </div>
   </header>
-  <!-- ***** Header Area End ***** -->
+
+    <!-- ***** Header Area End ***** -->
     {% if form.errors %}
         <p>ERROR</p>
     {% endif %}
@@ -77,7 +71,7 @@
             <a href="#" class="logo">MR <span>.</span></a>
 
             <div class="heading">
-               <h2>{{ request.user.first_name }}</h2>
+               <h2>{{ request.user }}</h2>
                <p>BetMaster User</p>
             </div>
 
@@ -95,9 +89,8 @@
             <div class="sign-up form-peice switched">
                 <form method="post">
                 {% csrf_token %}
+                  {{ form.as_p }}
 
-
-                   {{ form.as_p }}
 
                   <div class="CTA">
                      <input  type="submit" value="Submit">
@@ -127,11 +120,6 @@
                      <label for="email">Email:</label>
                        <label for="name">{{ request.user.email}}</label>
                      <span class="error"></span>
-                  </div>
-
-                  <div class="form-group">
-                     <label for="phone">Money:</label>
-                      <label for="name">{{ request.user.profile.money }}</label>
                   </div>
 
                   <div class="form-group">

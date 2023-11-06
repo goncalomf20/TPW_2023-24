@@ -1,9 +1,7 @@
 body {
   font-family: "Montserrat", sans-serif;
-  background: #f7edd5; }
+  background: #ffffff; }
 
-.container {
-  max-width: 900px; }
 
 a {
   display: inline-block;
@@ -45,7 +43,7 @@ section#formHolder {
     background: white;
     z-index: -1; }
   .brand a.logo {
-    color: #f95959;
+    color: black;
     font-size: 20px;
     font-weight: 700;
     text-decoration: none;
@@ -137,9 +135,9 @@ section#formHolder {
       margin-bottom: 5px;
       position: relative; }
       .form form .form-group.hasError input {
-        border-color: #f95959 !important; }
+        border-color: darkblue; !important; }
       .form form .form-group.hasError label {
-        color: #f95959 !important; }
+        color: darkblue; !important; }
     .form form label {
       font-size: 12px;
       font-weight: 400;
@@ -185,7 +183,7 @@ section#formHolder {
         font-size: 12px;
         text-transform: uppercase;
         padding: 5px 30px;
-        background: #f95959;
+        background: #181d30;
         color: #fff;
         border-radius: 30px;
         margin-right: 20px;

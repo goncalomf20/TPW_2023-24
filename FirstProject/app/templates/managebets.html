@@ -30,7 +30,41 @@
         <p>ERROR</p>
     {% endif %}
   <!-- ***** Header Area Start ***** -->
-    <header class="header-area header-sticky" style="background-color: #181d30;" >
+       <header class="header-area header-sticky" style="background-color: #181d30;" >
+      <div class="container">
+          <div class="row">
+              <div class="col-12">
+                  <nav class="main-nav">
+                      <!-- ***** Logo Start ***** -->
+
+                      <!-- ***** Logo End ***** -->
+                      <!-- ***** Menu Start ***** -->
+                        <ul class="nav">
+                            <li class="scroll-to-section"><a href="{% url 'admin_page' %}" class="active">Home</a></li>
+                            <li class="scroll-to-section"><a href="{% url 'admin_page' %}#services">All games</a></li>
+                            <li class="scroll-to-section"><a href="{% url 'admin_page' %}#about">All Teams</a></li>
+                            <li><a href="{% url 'addadmin' %}">Add new Admin</a></li>
+                            <li><a href="{% url 'managebets' %}">Check Bets</a></li>
+                            <li><a href="{% url 'manageusers' %}" >Manage Users</a></li>
+                            <li class="has-sub">
+                                <a href="javascript:void(0)">{{ request.user.username }}</a>
+                                <ul class="sub-menu">
+                                    <li><a href="{% url 'update_admin' %}">Edit Profile</a></li>
+
+                                </ul>
+                            </li>
+                            <li class="scroll-to-section"><a href="{% url 'logout' %}">Logout</a></li>
+                        </ul>
+                      <a class='menu-trigger'>
+                          <span>Menu</span>
+                      </a>
+                      <!-- ***** Menu End ***** -->
+                  </nav>
+              </div>
+          </div>
+      </div>
+  </header>
+
       <div class="container">
           <div class="row">
               <div class="col-12">

@@ -31,11 +31,9 @@
         <p>ERROR</p>
     {% endif %}
   <!-- ***** Header Area Start ***** -->
-  <header class="header-area header-sticky" style="background-color: #181d30;">
+<header class="header-area header-sticky" style="background-color: #181d30;" >
       <div class="container">
-
           <div class="row">
-
               <div class="col-12">
                   <nav class="main-nav">
                       <!-- ***** Logo Start ***** -->
@@ -43,19 +41,19 @@
                       <!-- ***** Logo End ***** -->
                       <!-- ***** Menu Start ***** -->
                       <ul class="nav">
-
-                          <li class="scroll-to-section"><a href="../#top" class="active">Home</a></li>
-                          <li class="scroll-to-section"><a href="../#services">Bets</a></li>
-                          <li class="scroll-to-section"><a href="../#about">Teams</a></li>
+                          <li class="scroll-to-section"><a href="{% url 'index' %}" class="active">Home</a></li>
+                          <li class="scroll-to-section"><a href="{% url 'index' %}#services">Bets</a></li>
+                          <li class="scroll-to-section"><a href="{% url 'index' %}#about">Your Bet</a></li>
                           {% if request.user.is_authenticated %}
                             <li class="has-sub">
                               <a href="javascript:void(0)">{{ request.user.username }}</a>
                               <ul class="sub-menu">
-                                  <li><a href="about-us.html">Details</a></li>
-                                  <li><a href="our-services.html">Add Money</a></li>
-                                  <li><a href="contact-us.html">Add comment</a></li>
+                                  <li><a href="{% url 'usrdetails' %}">Details</a></li>
+                                  <li><a href="{% url 'addmoney' %}">Add Money</a></li>
+                                  <li><a href="{% url 'withdraw' %}">Withdraw</a></li>
                               </ul>
                             </li>
+                                <li class="scroll-to-section"><a id="money" href="">{{ user.profile.money }}</a></li>
                               <li class="scroll-to-section"><a  href="{% url 'logout' %}">Logout</a></li>
                           {% else %}
 
@@ -63,6 +61,8 @@
                               <li><a  href="{% url 'register' %}">Sign in</a></li>
                           {% endif %}
                       </ul>
+
+
                       <a class='menu-trigger'>
                           <span>Menu</span>
                       </a>

@@ -17,22 +17,82 @@
 </head>
 <body>
 {% block content %}
+
+          <!-- ***** Header Area Start ***** -->
+<header class="header-area header-sticky" style="background-color: #181d30;" >
+      <div class="container">
+          <div class="row">
+              <div class="col-12">
+                  <nav class="main-nav">
+                      <!-- ***** Logo Start ***** -->
+
+                      <!-- ***** Logo End ***** -->
+                      <!-- ***** Menu Start ***** -->
+                      <ul class="nav">
+                          <li class="scroll-to-section"><a href="{% url 'index' %}" class="active">Home</a></li>
+                          <li class="scroll-to-section"><a href="{% url 'index' %}#services">Bets</a></li>
+                          <li class="scroll-to-section"><a href="{% url 'index' %}#about">Your Bet</a></li>
+                          {% if request.user.is_authenticated %}
+                            <li class="has-sub">
+                              <a href="javascript:void(0)">{{ request.user.username }}</a>
+                              <ul class="sub-menu">
+                                  <li><a href="{% url 'usrdetails' %}">Details</a></li>
+                                  <li><a href="{% url 'addmoney' %}">Add Money</a></li>
+                                  <li><a href="{% url 'withdraw' %}">Withdraw</a></li>
+                              </ul>
+                            </li>
+                                <li class="scroll-to-section"><a id="money" href="">{{ user.profile.money }}</a></li>
+                              <li class="scroll-to-section"><a  href="{% url 'logout' %}">Logout</a></li>
+                          {% else %}
+
+                              <li class="scroll-to-section"><a  href="{% url 'login' %}">Login</a></li>
+                              <li><a  href="{% url 'register' %}">Sign in</a></li>
+                          {% endif %}
+                      </ul>
+
+
+                      <a class='menu-trigger'>
+                          <span>Menu</span>
+                      </a>
+                      <!-- ***** Menu End ***** -->
+                  </nav>
+              </div>
+          </div>
+      </div>
+  </header>
+  <!-- ***** Header Area End ***** -->6
+
     {% if request.user.is_authenticated %}
     <div class="container">
         <h1 class="my-4">{{ request.user.username }}'s Bets</h1>
-        <div class="row">
-            {% for bet in user_bets %}
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Bet ID: {{ bet.id }}</h5>
-                            <p class="card-text">Bet Amount: ${{ bet.money_invested }}</p>
-                        </div>
-                    </div>
+<div class="row">
+    {% for bet in user_bets %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Bet ID: {{ bet.id }}</h5>
+                    <p class="card-text">Bet Amount: ${{ bet.money_invested }}</p>
+                    <p class="card-text">Timestamp: {{ bet.timestamp }}</p>
+                    <p class="card-text">Games:</p>
+                    <ul>
+                        {% for game in bet.games.all %}
+                            <li>
+                                <p><strong>Game Name:</strong> {{ game.game.team1 }} vs. {{ game.game.team2 }}</p>
+                                <p><strong>Game Date:</strong> {{ game.game.game_date }}</p>
+                                <p><strong>Odds for Team 1:</strong> {{ game.game.odd1win }}</p>
+                                <p><strong>Odds for Team 2:</strong> {{ game.game.odd2win }}</p>
+                                <p><strong>Odds for Draw:</strong> {{ game.game.oddDraw }}</p>
+                                <p><strong>Game Result:</strong> {{ game.game.win }}</p>
+                            </li>
+
+                        {% endfor %}
+                    </ul>
                 </div>
-            {% endfor %}
+            </div>
         </div>
-    </div>
+    {% endfor %}
+</div>
+
     {% endif %}
 {% endblock %}
 </body>

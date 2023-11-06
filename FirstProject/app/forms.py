@@ -25,3 +25,27 @@ class TeamForm(forms.Form):
     class Meta:
         model = Team
         fields = ['teamName', 'teamLogo']
+
+class UpdateUser(forms.Form):
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+    email = forms.EmailField()
+    new_password = forms.CharField(widget=forms.PasswordInput())
+
+REASON_CHOICES = [
+    ("", "Choose an Option"),
+    ("Can not withdraw", "Can not withdraw"),
+    ("Can not add money", "Can not add money"),
+    ("Can not make a bet", "Can not make a bet"),
+]
+
+class MakeComment(forms.Form):
+    name = forms.CharField()
+    email = forms.EmailField()
+    subject = forms.CharField()
+    comment = forms.CharField()
+    reason = forms.ChoiceField(choices=REASON_CHOICES, required=False)
+
+class Withdraw(forms.Form):
+    IBAN = forms.CharField(max_length=20)
+    amount = forms.IntegerField()

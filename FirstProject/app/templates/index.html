@@ -48,16 +48,16 @@ https://templatemo.com/tm-574-mexant
                       <!-- ***** Logo End ***** -->
                       <!-- ***** Menu Start ***** -->
                       <ul class="nav">
-                          <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
-                          <li class="scroll-to-section"><a href="#services">Bets</a></li>
-                          <li class="scroll-to-section"><a href="#about">Teams</a></li>
+                          <li class="scroll-to-section"><a href="{% url 'index' %}" class="active">Home</a></li>
+                          <li class="scroll-to-section"><a href="{% url 'index' %}#services">Bets</a></li>
+                          <li class="scroll-to-section"><a href="{% url 'index' %}#about">Your Bet</a></li>
                           {% if request.user.is_authenticated %}
                             <li class="has-sub">
                               <a href="javascript:void(0)">{{ request.user.username }}</a>
                               <ul class="sub-menu">
-                                  <li><a href="usrdetails">Details</a></li>
-                                  <li><a href="addmoney">Add Money</a></li>
-                                  <li><a href="contact-us.html">Add comment</a></li>
+                                  <li><a href="{% url 'usrdetails' %}">Details</a></li>
+                                  <li><a href="{% url 'addmoney' %}">Add Money</a></li>
+                                  <li><a href="{% url 'withdraw' %}">Withdraw</a></li>
                               </ul>
                             </li>
                                 <li class="scroll-to-section"><a id="money" href="">{{ user.profile.money }}</a></li>
@@ -68,6 +68,8 @@ https://templatemo.com/tm-574-mexant
                               <li><a  href="{% url 'register' %}">Sign in</a></li>
                           {% endif %}
                       </ul>
+
+
                       <a class='menu-trigger'>
                           <span>Menu</span>
                       </a>
@@ -275,40 +277,41 @@ https://templatemo.com/tm-574-mexant
         </div>
         <div class="col-lg-5">
           <div class="section-heading">
-            <h6>Your Freedom</h6>
-            <h4>Get a Financial Plan</h4>
+            <h6>Your comment</h6>
+            <h4>Get Help</h4>
           </div>
-          <form id="calculate" action="" method="get">
+          <form id="calculate" action="" method="post">
+            {% csrf_token %}
             <div class="row">
               <div class="col-lg-6">
                 <fieldset>
-                  <label for="name">Your Name</label>
-                  <input type="name" name="name" id="name" placeholder="" autocomplete="on" required>
+                    <label for="{{ comment_form.name.id_for_label }}">Your Name</label>
+                    {{ comment_form.name }}
                 </fieldset>
               </div>
               <div class="col-lg-6">
                 <fieldset>
-                  <label for="email">Your Email</label>
-                  <input type="text" name="email" id="email" pattern="[^ @]*@[^ @]*" placeholder="" required="">
+                    <label for="{{ comment_form.email.id_for_label }}">Your Email</label>
+                    {{ comment_form.email }}
                 </fieldset>
               </div>
               <div class="col-lg-12">
                 <fieldset>
-                  <label for="subject">Subject</label>
-                  <input type="subject" name="subject" id="subject" placeholder="" autocomplete="on" >
+                    <label for="{{ comment_form.subject.id_for_label }}">Subject</label>
+                    {{ comment_form.subject }}
+                </fieldset>
+              </div>
+              <div class="col-lg-12">
+                 <fieldset>
+                    <label for="{{ comment_form.comment.id_for_label }}">Comment</label>
+                    {{ comment_form.comment }}
                 </fieldset>
               </div>
               <div class="col-lg-12">
                 <fieldset>
-                  <label for="chooseOption" class="form-label">Your Reason</label>
-                  <select name="Category" class="form-select" aria-label="Default select example" id="chooseOption" onchange="this.form.click()">
-                      <option selected>Choose an Option</option>
-                      <option type="checkbox" name="option1" value="Online Banking">Online Banking</option>
-                      <option value="Financial Control">Financial Control</option>
-                      <option value="Yearly Profit">Yearly Profit</option>
-                      <option value="Crypto Investment">Crypto Investment</option>
-                  </select>
-              </fieldset>
+                    <label for="{{ comment_form.reason.id_for_label }}" class="form-label">Your Reason</label>
+                    {{ comment_form.reason }}
+                </fieldset>
               </div>
               <div class="col-lg-12">
                 <fieldset>
