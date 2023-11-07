@@ -41,7 +41,11 @@ urlpatterns = [
     path('user_bets/', views.user_bets, name='user_bets'),
     path('delete_user/<str:username>/', views.delete_user, name='delete_user'),
     path('update_admin/', views.update_admin, name='update_admin'),
-    path('withdraw', views.withdraw, name='withdraw')
+    path('withdraw', views.withdraw, name='withdraw'),
+    path('viewcomments', views.viewcomments, name='viewcomments'),
+    path('delete_comment/<int:id>/', views.delete_comment, name='delete_comment'),
+
+
 ]
 
 if settings.DEBUG:

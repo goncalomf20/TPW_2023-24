@@ -533,3 +533,17 @@ def withdraw(request):
         withdraw_form = Withdraw()
 
     return render(request, "withdraw.html", {"withdraw_form": withdraw_form})
+
+
+def viewcomments(request):
+    comment = comments.objects.all()
+    return render(request, 'viewcomments.html',{'comments': comment})
+
+def delete_comment(request, id):
+    try:
+        comment = comments.objects.get(id=id)
+        comment.delete()
+    except comment.DoesNotExist:
+        pass  # Handle the case when the user does not exist
+
+    return redirect('viewcomments')
