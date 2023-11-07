@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="{% static 'assets/css/animate.css' %}">
     <style>
         body {
-            background-color: #f0f0f0;
+            background-color: #ffffff;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -28,7 +28,7 @@
         }
         .card {
             max-width: 400px;
-            border: 2px solid #007BFF;
+            border: 2px solid #181d30;
             border-radius: 15px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
@@ -111,13 +111,13 @@
     width: 100%;
     padding: 10px;
     margin: 6px 0;
-    border: 1px solid #ccc;
+    border: 1px solid #ffffff;
     border-radius: 5px;
 }
 
 /* Style for the submit button */
 .form-container input[type="submit"] {
-    background-color: #007BFF;
+    background-color: #181d30;
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -130,7 +130,7 @@
 /* Hover effect for the close button and submit button */
 .close-button:hover, .form-container input[type="submit"]:hover {
     color: #333;
-    background-color: #0056b3;
+    background-color: #181d30;
 }
 
 .centered-content {
@@ -144,7 +144,8 @@
 
 </head>
 <body>
-<header class="header-area header-sticky" style="background-color: #181d30;" >
+  <!-- ***** Header Area Start ***** -->
+  <header class="header-area header-sticky" style="background-color: #181d30;" >
       <div class="container">
           <div class="row">
               <div class="col-12">
@@ -154,7 +155,8 @@
                       <!-- ***** Logo End ***** -->
                       <!-- ***** Menu Start ***** -->
                       <ul class="nav">
-                          <li class="scroll-to-section"><a href="{% url 'index' %}" class="active">Home</a></li>
+                          <li class="scroll-to-section"><img style="width: 120px;" href="{% url 'index' %}" class="active" src="{% static 'assets/images/betmaster.png' %}" alt=""></li>
+                          <li class="scroll-to-section"><a  href="{% url 'index' %}" class="active">Home</a></li>
                           <li class="scroll-to-section"><a href="{% url 'index' %}#services">Bets</a></li>
                           <li class="scroll-to-section"><a href="{% url 'index' %}#about">Your Bet</a></li>
                           {% if request.user.is_authenticated %}
@@ -167,11 +169,11 @@
                               </ul>
                             </li>
                                 <li class="scroll-to-section"><a id="money" href="">{{ user.profile.money }}</a></li>
-                              <li class="scroll-to-section"><a  href="{% url 'logout' %}">Logout</a></li>
+                              <li class="scroll-to-section"><a style="background:#ff511a ;color: #181d30" href="{% url 'logout' %}">Logout</a></li>
                           {% else %}
 
                               <li class="scroll-to-section"><a  href="{% url 'login' %}">Login</a></li>
-                              <li><a  href="{% url 'register' %}">Sign in</a></li>
+                              <li><a style="background:#ffffff ;color: #181d30" href="{% url 'register' %}">Sign in</a></li>
                           {% endif %}
                       </ul>
 
@@ -185,6 +187,8 @@
           </div>
       </div>
   </header>
+  <!-- ***** Header Area End ***** -->
+
     {% if visa_form.errors %}
         <p>ERROR</p>
     {% endif %}
@@ -215,7 +219,7 @@
                 <input type="text" class="form-control" id="IBAN" name="IBAN" placeholder="Enter IBAN" aria-label="Enter IBAN" aria-describedby="withdrawButton">
             </div>
 
-            <button type="submit" class="btn btn-primary" id="withdrawButton">Withdraw</button>
+            <button type="submit" class="btn" style="background:#ff511a ;color: #ffffff;" id="withdrawButton">Withdraw</button>
         </form>
     </div>
 </div>

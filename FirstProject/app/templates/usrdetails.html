@@ -20,7 +20,7 @@
 </head>
 <body>
 {% block content %}
-      <!-- ***** Header Area Start ***** -->
+  <!-- ***** Header Area Start ***** -->
   <header class="header-area header-sticky" style="background-color: #181d30;" >
       <div class="container">
           <div class="row">
@@ -31,7 +31,8 @@
                       <!-- ***** Logo End ***** -->
                       <!-- ***** Menu Start ***** -->
                       <ul class="nav">
-                          <li class="scroll-to-section"><a href="{% url 'index' %}" class="active">Home</a></li>
+                          <li class="scroll-to-section"><img style="width: 120px;" href="{% url 'index' %}" class="active" src="{% static 'assets/images/betmaster.png' %}" alt=""></li>
+                          <li class="scroll-to-section"><a  href="{% url 'index' %}" class="active">Home</a></li>
                           <li class="scroll-to-section"><a href="{% url 'index' %}#services">Bets</a></li>
                           <li class="scroll-to-section"><a href="{% url 'index' %}#about">Your Bet</a></li>
                           {% if request.user.is_authenticated %}
@@ -44,11 +45,11 @@
                               </ul>
                             </li>
                                 <li class="scroll-to-section"><a id="money" href="">{{ user.profile.money }}</a></li>
-                              <li class="scroll-to-section"><a  href="{% url 'logout' %}">Logout</a></li>
+                              <li class="scroll-to-section"><a style="background:#ff511a ;color: #181d30" href="{% url 'logout' %}">Logout</a></li>
                           {% else %}
 
                               <li class="scroll-to-section"><a  href="{% url 'login' %}">Login</a></li>
-                              <li><a  href="{% url 'register' %}">Sign in</a></li>
+                              <li><a style="background:#ffffff ;color: #181d30" href="{% url 'register' %}">Sign in</a></li>
                           {% endif %}
                       </ul>
 

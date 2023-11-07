@@ -114,7 +114,7 @@ https://templatemo.com/tm-574-mexant
     <div class="swiper-button-prev swiper-button-white"></div>
   </div>
 
-  <!-- ***** Main Banner Area End ***** -->
+   ***** Main Banner Area End ***** -->
 <p id="data" style="display: none">{{ games|last }}</p>
 
 <section class="services" id="services" >
@@ -251,7 +251,7 @@ https://templatemo.com/tm-574-mexant
                         <h4 id="form_money">{{ form.as_p }}</h4>
                          <p id="warning" style="display: none; color: red "></p>
                          {% if request.user.is_authenticated %}
-                        <button id="button-money" type="submit" id="form-submit" class="btn-primary">Submit Now</button>
+                        <button id="button-money" type="submit" id="form-submit" style="background:#ff511a ;color: #ffffff;" class="btn">Submit Now</button>
                          {% endif %}
                     </form>
 
@@ -396,6 +396,7 @@ https://templatemo.com/tm-574-mexant
       total_span.classList.add("item", "item-title");
       total_span.style.width = "400px";
       total_span.textContent = "Total Odd:";
+
 
       var oddSpan = document.createElement("span");
       oddSpan.classList.add("item");
