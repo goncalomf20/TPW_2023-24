@@ -48,7 +48,8 @@ https://templatemo.com/tm-574-mexant
                       <!-- ***** Logo End ***** -->
                       <!-- ***** Menu Start ***** -->
                       <ul class="nav">
-                          <li class="scroll-to-section"><a href="{% url 'index' %}" class="active">Home</a></li>
+                          <li class="scroll-to-section"><img style="width: 120px;" href="{% url 'index' %}" class="active" src="{% static 'assets/images/betmaster.png' %}" alt=""></li>
+                          <li class="scroll-to-section"><a  href="{% url 'index' %}" class="active">Home</a></li>
                           <li class="scroll-to-section"><a href="{% url 'index' %}#services">Bets</a></li>
                           <li class="scroll-to-section"><a href="{% url 'index' %}#about">Your Bet</a></li>
                           {% if request.user.is_authenticated %}
@@ -61,11 +62,11 @@ https://templatemo.com/tm-574-mexant
                               </ul>
                             </li>
                                 <li class="scroll-to-section"><a id="money" href="">{{ user.profile.money }}</a></li>
-                              <li class="scroll-to-section"><a  href="{% url 'logout' %}">Logout</a></li>
+                              <li class="scroll-to-section"><a style="background:#ff511a ;color: #181d30" href="{% url 'logout' %}">Logout</a></li>
                           {% else %}
 
                               <li class="scroll-to-section"><a  href="{% url 'login' %}">Login</a></li>
-                              <li><a  href="{% url 'register' %}">Sign in</a></li>
+                              <li><a style="background:#ffffff ;color: #181d30" href="{% url 'register' %}">Sign in</a></li>
                           {% endif %}
                       </ul>
 
@@ -83,10 +84,10 @@ https://templatemo.com/tm-574-mexant
 
   <!-- ***** Main Banner Area Start ***** -->
 
- <!-- <div class="swiper-container" id="top">
+  <!--<div class="swiper-container" id="top">
     <div class="swiper-wrapper">
       <div class="swiper-slide">
-        <div class="slide-inner"  style="background-image:url({% static 'assets/images/futex.png' %})">
+        <div class="slide-inner"  style="background:#181d30)">
           <div class="container">
             <div class="row">
               <div class="col-lg-8">
@@ -111,7 +112,7 @@ https://templatemo.com/tm-574-mexant
     </div>
     <div class="swiper-button-next swiper-button-white"></div>
     <div class="swiper-button-prev swiper-button-white"></div>
-  </div> -->
+  </div>
 
   <!-- ***** Main Banner Area End ***** -->
 <p id="data" style="display: none">{{ games|last }}</p>
@@ -132,7 +133,7 @@ https://templatemo.com/tm-574-mexant
                     <div>
                         <img  style="width: 123px; height: 138px" src="{% static 'assets/images/' %}{{ game.team1.teamLogo }}" alt="">
                         <h5>
-                            <button onclick="modal_add('{{ game.team1 }}   -   {{ game.team2 }}   ({{ game.team1 }})', '{{ game.odd1win }}')" class="btn-success">
+                            <button style="background:#ff511a ;color: #ffffff;" onclick="modal_add('{{ game.team1 }}   -   {{ game.team2 }}   ({{ game.team1 }})', '{{ game.odd1win }}')" class="btn">
                                 <h6 style="color: white">{{ game.odd1win }}</h6>
                             </button>
                             {{ game.team1 }}
@@ -143,7 +144,7 @@ https://templatemo.com/tm-574-mexant
                     <div>
                         <img  style="width: 80px;height: auto; padding-top: 40px" src="{% static 'assets/images/close.png' %}" alt="">
                         <h5 style="padding-top: 15px">
-                            <button  class="btn-success" onclick="modal_add('{{ game.team1 }}   -   {{ game.team2 }}   (empate)' , '{{ game.oddDraw }}')">
+                            <button  class="btn" style="background:#ff511a ;color: #ffffff;"  onclick="modal_add('{{ game.team1 }}   -   {{ game.team2 }}   (empate)' , '{{ game.oddDraw }}')">
 
                                 <h6 style="color: white">{{ game.oddDraw }}</h6>
                             </button>
@@ -155,7 +156,7 @@ https://templatemo.com/tm-574-mexant
                         <img style="width: 123px; height: 138px" src="{% static 'assets/images/' %}{{ game.team2.teamLogo }}" alt="">
                         <h5>
                             {{ game.team2 }}
-                            <button onclick="modal_add('{{ game.team1 }}   -   {{ game.team2 }}   ({{ game.team2 }})', '{{ game.odd2win }}')" class="btn-success">
+                            <button style="background:#ff511a ;color: #ffffff;" onclick="modal_add('{{ game.team1 }}   -   {{ game.team2 }}   ({{ game.team2 }})', '{{ game.odd2win }}')" class="btn">
                                 <h6 style="color: white">{{ game.odd2win }}</h6>
                             </button>
                         </h5>
