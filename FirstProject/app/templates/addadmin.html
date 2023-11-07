@@ -30,7 +30,7 @@
         <p>ERROR</p>
     {% endif %}
   <!-- ***** Header Area Start ***** -->
-     <header class="header-area header-sticky" style="background-color: #181d30;" >
+    <header class="header-area header-sticky" style="background-color: #181d30;" >
       <div class="container">
           <div class="row">
               <div class="col-12">
@@ -46,6 +46,7 @@
                             <li><a href="{% url 'addadmin' %}">Add new Admin</a></li>
                             <li><a href="{% url 'managebets' %}">Check Bets</a></li>
                             <li><a href="{% url 'manageusers' %}" >Manage Users</a></li>
+                            <li><a href="{% url 'viewcomments' %}" >Manage Comments</a></li>
                             <li class="has-sub">
                                 <a href="javascript:void(0)">{{ request.user.username }}</a>
                                 <ul class="sub-menu">
@@ -64,7 +65,6 @@
           </div>
       </div>
   </header>
-
   <!-- ***** Header Area End ***** -->
 <section class="about-us" id="about">
     <div class="container">

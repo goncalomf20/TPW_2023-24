@@ -1,7 +1,7 @@
-{% block content %}
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="en">
+
+  <head>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -17,20 +17,28 @@
     <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
 
-    <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="{% static 'assets/css/fontawesome.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/templatemo-574-mexant.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/owl.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/animate.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/formregister.css' %}">
+<!-- Additional CSS Files -->
+<link rel="stylesheet" href="{% static 'assets/css/fontawesome.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/templatemo-574-mexant.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/owl.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/animate.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/modal.css' %}">
+<!-- <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"> -->
 
-</head>
+<!--
+
+TemplateMo 574 Mexant
+
+https://templatemo.com/tm-574-mexant
+
+-->
+  </head>
+
 <body>
-    {% if form.errors %}
-        <p>ERROR</p>
-    {% endif %}
+{% block content %}
+
   <!-- ***** Header Area Start ***** -->
- <header class="header-area header-sticky" style="background-color: #181d30;" >
+  <header class="header-area header-sticky" style="background-color: #181d30;" >
       <div class="container">
           <div class="row">
               <div class="col-12">
@@ -65,84 +73,93 @@
           </div>
       </div>
   </header>
-
-      <div class="container">
-          <div class="row">
-              <div class="col-12">
-                  <nav class="main-nav">
-                      <!-- ***** Logo Start ***** -->
-
-                      <!-- ***** Logo End ***** -->
-                      <!-- ***** Menu Start ***** -->
-                      <ul class="nav">
-                        <li class="scroll-to-section"><a href="{% url 'admin_page' %}" class="active">Home</a></li>
-                        <li class="scroll-to-section"><a href="{% url 'admin_page' %}#services">All games</a></li>
-                        <li class="scroll-to-section"><a href="{% url 'admin_page' %}#about">All Teams</a></li>
-                        <li><a href="{% url 'addadmin' %}">Add new Admin</a></li>
-                        <li><a href="{% url 'managebets' %}">Check Bets</a></li>
-                        <li><a href="{% url 'manageusers' %}" >Manage Users</a></li>
-                        <li class="has-sub">
-                            <a href="javascript:void(0)">{{ request.user.username }}</a>
-                            <ul class="sub-menu">
-                                <li><a href="{% url 'addmoney' %}">Edit Profile</a></li>
-
-                            </ul>
-                        </li>
-                        <li class="scroll-to-section"><a href="{% url 'logout' %}">Logout</a></li>
-                    </ul>
-
-                      <a class='menu-trigger'>
-                          <span>Menu</span>
-                      </a>
-                      <!-- ***** Menu End ***** -->
-                  </nav>
-              </div>
-          </div>
-      </div>
-  </header>
   <!-- ***** Header Area End ***** -->
+
+  <!-- ***** Main Banner Area Start ***** -->
+
+ <!-- <div class="swiper-container" id="top">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <div class="slide-inner"  style="background-image:url({% static 'assets/images/futex.png' %})">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-8">
+                <div class="header-text">
+                  <h2>Wanna make money on great experiences?<br>Bet here, <em>Safely!</em></h2>
+                  <div class="div-dec"></div>
+                  <p>When you browse through different tags on TemplateMo website, you can see a variety of CSS templates which are responsive website designs for different individual needs. Please tell your friends about our website. Thank you.</p>
+                  <div class="buttons">
+                    <div class="green-button">
+                      <a href="#">Discover More</a>
+                    </div>
+                    <div class="orange-button">
+                      <a href="#">Contact Us</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="swiper-button-next swiper-button-white"></div>
+    <div class="swiper-button-prev swiper-button-white"></div>
+  </div> -->
+
+  <!-- ***** Main Banner Area End ***** -->
+      <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
 <div class="container">
-    <div class="row">
+  <div class="row" >
         <div class="col-lg-6 offset-lg-3">
             <div class="section-heading">
-                <h6>Manage</h6>
-                <h4>All Bets</h4>
+
+                <h4>All Comments</h4>
             </div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-lg-12">
-            {% if betted_games %}
+            {% if comments %}
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Game</th>
-                            <th>Betted</th>
-                            <th>Nr of Bets</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Subject</th>
+                            <th>Comment</th>
+                            <th>Reason</th>
                         </tr>
                     </thead>
                    <tbody>
-                        {% for bet_key, bet_value in betted_games.items %}
+                        {% for comment in comments %}
                             <tr>
-                                <td>{{ bet_key.game }}</td>
-                                <td>{{ bet_key.betted }}</td>
-                                <td>{{ bet_value }}</td>  <!-- Display the key itself -->
+                                <td>{{ comment.name }}</td>
+                                <td>{{ comment.email }}</td>
+                                <td>{{ comment.subject }}</td>
+                                <td>{{ comment.comment }}</td>
+                                <td>{{ comment.reason }}</td>
+                                <td>
+                                    <a href="{% url 'delete_comment' comment.id %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this comment?')">Delete</a>
+                                </td>
                             </tr>
                         {% endfor %}
                    </tbody>
 
                 </table>
             {% else %}
-                <p>There are no bets yet.</p>
+                <p>There are no comments yet.</p>
             {% endif %}
         </div>
     </div>
 </div>
-
-
-
-  <footer style="position:fixed; bottom: 0;width: 100%;">
+<footer style="position: fixed; bottom: 0;width: 100%;">
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
@@ -153,6 +170,9 @@
       </div>
     </div>
   </footer>
+
+{% endblock %}
+  <!-- Scripts -->
 <!-- Bootstrap core JavaScript -->
 <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
 <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
@@ -164,6 +184,5 @@
 <script src="{% static 'assets/js/swiper.js' %}"></script>
 <script src="{% static 'assets/js/custom.js' %}"></script>
 
-</body>
-{% endblock %}
+  </body>
 </html>
