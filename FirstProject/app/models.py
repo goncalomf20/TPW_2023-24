@@ -1,4 +1,4 @@
-
+from sorl.thumbnail import ImageField
 from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import UserManager
@@ -16,6 +16,7 @@ class Profile(models.Model):
 class Team(models.Model):
     teamName = models.CharField(max_length=70, default="")
     teamLogo = models.CharField(max_length=70, default="")
+    image = ImageField(upload_to='app/static/assets/images', blank=True, null=True)
     def __str__(self):
         return self.teamName
 

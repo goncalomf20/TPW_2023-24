@@ -22,9 +22,10 @@ class CreateVisaForm(forms.Form):
 class TeamForm(forms.Form):
     Team_name = forms.CharField()
     Team_logo = forms.CharField()
+    image = forms.ImageField()
     class Meta:
         model = Team
-        fields = ['teamName', 'teamLogo']
+        fields = ['teamName', 'teamLogo', 'image']
 
 class UpdateUser(forms.Form):
     first_name = forms.CharField()

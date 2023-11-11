@@ -386,11 +386,12 @@ def update_game_odds(request, game_id):
 
 def add_team(request):
     if request.method == 'POST':
-        team_form = TeamForm(request.POST)
+        team_form = TeamForm(request.POST, request.FILES)
         if team_form.is_valid():
             team_name = team_form.cleaned_data['Team_name']
             team_logo = team_form.cleaned_data['Team_logo']
-            team = Team(teamName=team_name, teamLogo=team_logo)
+            image = team_form.cleaned_data['image']
+            team = Team(teamName=team_name, teamLogo=team_logo, image=image)
             team.save()
 
     return redirect('admin_page')

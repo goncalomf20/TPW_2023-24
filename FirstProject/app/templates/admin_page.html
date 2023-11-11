@@ -117,7 +117,7 @@ https://templatemo.com/tm-574-mexant
                   <br>
                   <br>
                 <h6>Manage</h6>
-                <h4>All Games</h4>
+                <h4>All Games ({{ games|length }})</h4>
               </div>
             </div>
 
@@ -225,14 +225,19 @@ https://templatemo.com/tm-574-mexant
       <div class="row justify-content-center" >
             <div class="col-lg-3">
                 <div class="service-item text-center">
-                    <h4>Add New Team</h4>
-                    <form method="post" action="{% url 'add_team' %}">
+                    <h4>Add New Team </h4>
+
+                    <form method="post" action="{% url 'add_team' %}" enctype="multipart/form-data">
                         {% csrf_token %}
                         {{ team_form.as_p }}
+                        <p>(team logo and the name of the image must be the same)</p>
                         <button type="submit" class="btn btn-primary">Add Team</button>
                     </form>
+
                 </div>
+
             </div>
+
        </div>
        <div class="row">
 
