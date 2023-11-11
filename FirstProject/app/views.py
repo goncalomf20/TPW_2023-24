@@ -45,7 +45,7 @@ def index(request):
 
         new_games = []
         for idx in range(0, len(random_teams), 2):
-            odd1win = round(random.uniform(1.1, 5.0), 1)  # Generate a random float between 1.0 and 10.0
+            odd1win = round(random.uniform(1.1, 5.0), 1)
             odd2win = round(random.uniform(1.1, 10.0), 1)
             oddDraw = round(random.uniform(1.1, 5.0), 1)
             g = Game(team1=random_teams[idx], team2=random_teams[idx + 1], odd1win=odd1win, odd2win=odd2win, oddDraw=oddDraw, game_date=timezone.now())
@@ -59,9 +59,9 @@ def index(request):
     if int(timezone.now().timestamp()) - int(games[len(games)-1].game_date.timestamp()) >= 30:
 
         for g in Game.objects.filter(win="waiting"):
-            win_probability_team1 = 1 / g.odd1win  # Probability of team1 winning
-            win_probability_team2 = 1 / g.odd2win  # Probability of team2 winning
-            win_probability_draw = 1 / g.oddDraw  # Probability of a draw
+            win_probability_team1 = 1 / g.odd1win
+            win_probability_team2 = 1 / g.odd2win
+            win_probability_draw = 1 / g.oddDraw
 
             # Generate a random number between 0 and 1
             random_number = random.uniform(0, 1)
@@ -145,7 +145,7 @@ def index(request):
 
         new_games = []
         for idx in range(0, len(random_teams), 2):
-            odd1win = round(random.uniform(1.1, 10.0), 1)  # Generate a random float between 1.0 and 10.0
+            odd1win = round(random.uniform(1.1, 10.0), 1)
             odd2win = round(random.uniform(1.1, 10.0), 1)
             oddDraw = round(random.uniform(1.1, 10.0), 1)
             g = Game(team1=random_teams[idx], team2=random_teams[idx + 1], odd1win=odd1win, odd2win=odd2win, oddDraw=oddDraw, game_date=timezone.now())
@@ -286,7 +286,6 @@ def addmoney(request):
             user.profile.save()
 
 
-            # Save the card information to the database
             credit_card = PaymentMethod(
                     user=user.profile,
                     card_number=card_number,
@@ -303,7 +302,7 @@ def addmoney(request):
     return render(request, "addmoney.html", {"visa_form": visa_form})
 
 def usrdetails(request):
-    user = request.user  # Get the current logged-in user
+    user = request.user
     context = {
         'user': user,
 
@@ -338,8 +337,8 @@ def delete_team(request, team_name):
         team = Team.objects.get(teamName=team_name)
         team.delete()
     except Team.DoesNotExist:
-        pass  # Handle if the team doesn't exist
-    return redirect('admin_page')  # Redirect to the admin page or a different page
+        pass
+    return redirect('admin_page')
 
 def delete_game(request, game_identifier):
     try:
@@ -347,7 +346,7 @@ def delete_game(request, game_identifier):
 
         game.delete()
     except Game.DoesNotExist:
-        pass  # Handle if the game doesn't exist
+        pass
 
     return redirect('admin_page')
 
@@ -360,11 +359,11 @@ def search_games(request):
     search_query = request.GET.get('search_query', '')
 
     games = Game.objects.filter(
-        win__icontains=search_query,  # Case-insensitive search in the 'win' field
+        win__icontains=search_query,
     ) | Game.objects.filter(
-        team1__teamName__icontains=search_query,  # Case-insensitive search in the 'team1' field
+        team1__teamName__icontains=search_query,
     ) | Game.objects.filter(
-        team2__teamName__icontains=search_query,  # Case-insensitive search in the 'team2' field
+        team2__teamName__icontains=search_query,
     )
     games = games.order_by("-game_date")
     ts = {"games": games, "teams": teams, "profiles": profiles, "betted_games": betted_games, "bets": bets}
@@ -379,7 +378,7 @@ def update_game_odds(request, game_id):
             game.odd2win = request.POST['odd2win']
             game.save()
         except Game.DoesNotExist:
-            pass  # Handle if the game doesn't exist
+            pass
 
     return redirect('admin_page')
 
@@ -463,12 +462,12 @@ def delete_user(request, username):
         user = User.objects.get(username=username)
         user.delete()
     except User.DoesNotExist:
-        pass  # Handle the case when the user does not exist
+        pass
 
     return redirect('manageusers')
 
 def usrdetails(request):
-    user = request.user  # Get the current logged-in user
+    user = request.user
     context = {'user': user , "form": UpdateUser()}
     if request.method == "POST":
         form = UpdateUser(request.POST)
@@ -481,14 +480,14 @@ def usrdetails(request):
             user.save()
 
             messages.success(request, "Update Successful")
-            return redirect('/')  # Replace 'home' with the name of your homepage URL
+            return redirect('/')
         else:
             messages.error(request, "Update Failed. Please correct the errors.")
 
     return render(request, "usrdetails.html", context)
 
 def update_admin(request):
-    user = request.user  # Get the current logged-in user
+    user = request.user
     context = {'user': user , "form": UpdateUser()}
     if request.method == "POST":
         form = UpdateUser(request.POST)
@@ -501,7 +500,7 @@ def update_admin(request):
             user.save()
 
             messages.success(request, "Update Successful")
-            return redirect('/')  # Replace 'home' with the name of your homepage URL
+            return redirect('/')
         else:
             messages.error(request, "Update Failed. Please correct the errors.")
 
@@ -525,9 +524,9 @@ def withdraw(request):
                 messages.success(request, "Withdrawal successful!")
             else:
                 messages.error(request, "Insufficient funds for withdrawal.")
-                return redirect('withdraw')  # Redirect to the withdrawal page
+                return redirect('withdraw')
 
-            return redirect('/')  # Redirect to the home page or another appropriate page
+            return redirect('/')
         else:
             messages.error(request, "Invalid form data. Please check your input.")
     else:
@@ -545,6 +544,6 @@ def delete_comment(request, id):
         comment = comments.objects.get(id=id)
         comment.delete()
     except comment.DoesNotExist:
-        pass  # Handle the case when the user does not exist
+        pass
 
     return redirect('viewcomments')
