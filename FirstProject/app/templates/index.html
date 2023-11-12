@@ -492,9 +492,9 @@ https://templatemo.com/tm-574-mexant
     var reload_time = diaTimestamp + 30
     function recarregarPagina() {
         var currentTimestamp = parseInt(Date.now() / 1000);
-        console.log(currentTimestamp, reload_time)
+        console.log(reload_time, currentTimestamp)
         // ideal seria tar <= mas o modal não funciona
-        if (reload_time == currentTimestamp){
+        if (reload_time <= currentTimestamp){
             location.reload()
         }
     }
