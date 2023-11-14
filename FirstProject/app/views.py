@@ -25,6 +25,12 @@ def index(request):
 
     games = Game.objects.all()
     teams = Team.objects.all()
+    print(teams)
+    if not teams:
+        form = MakeaBet(request.POST)
+        result = []
+        comment_form = MakeComment(request.POST)
+        return render(request, "index.html", {'games' : games, 'teams' : teams, "form": form, "resultados": result, "comment_form":comment_form})
 
     #pelas equipas saber o nr de jogos possiveis
     if len(teams) % 2 == 0:

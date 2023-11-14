@@ -63,4 +63,4 @@ class PaymentMethod(models.Model):
     card_holders_name = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.card_number,self.card_holders_name,self.user.user
+        return str(self.card_number) +str(self.card_holders_name)+str(self.user.user)
