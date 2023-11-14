@@ -13,11 +13,11 @@ class MakeaBet(forms.Form):
     money = forms.DecimalField(max_digits=10, decimal_places=1)
 
 class CreateVisaForm(forms.Form):
-    money = forms.IntegerField(max_value=1000)
+    money = forms.IntegerField(max_value=1000, min_value=0)
     card_number = forms.IntegerField()
     card_holders_name = forms.CharField()
     expiration_code = forms.CharField()
-    cvv = forms.IntegerField(max_value=999)
+    cvv = forms.IntegerField(max_value=999, min_value=100)
 
 class TeamForm(forms.Form):
     Team_name = forms.CharField()
@@ -48,5 +48,5 @@ class MakeComment(forms.Form):
     reason = forms.ChoiceField(choices=REASON_CHOICES, required=False)
 
 class Withdraw(forms.Form):
-    IBAN = forms.CharField(max_length=20)
-    amount = forms.IntegerField()
+    IBAN = forms.CharField(max_length=20, min_length=20)
+    amount = forms.IntegerField(min_value=0)
