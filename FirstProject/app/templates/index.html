@@ -174,12 +174,7 @@
 
    {% if resultados %}
        <p style="display: none" id="show">{{ resultados }}</p>
-      <!--  <ul>
-            {% for item in resultados %}
-            <li>Game: {{ item.game}}</li>
-            <li>Your bet: {{ item.betted }}</li>
-            {% endfor %}
-       </ul> -->
+
    {% endif %}
 
 
@@ -219,8 +214,9 @@
 
                  <div class="green-button">
 
-                    <form method="post">
+                    <form method="post" onsubmit="return validateForm()" >
                         {% csrf_token %}
+
                         <input type="hidden" name="bet" id="bet">
                         <input type="hidden" name="user" value="{{ user.username }}">
                         <h4 id="form_money">{{ form.as_p }}</h4>
@@ -511,6 +507,28 @@
         const games = document.getElementById("games" + counter);
         games.style.display = games.style.display === "none" ? "block" : "none";
     }
+
+    function validateForm() {
+        // Check if Enter key was pressed recently
+        if (enterKeyPressed) {
+            // Clear the flag and prevent form submission
+            enterKeyPressed = false;
+            return false;
+        }
+        // Allow form submission for other cases
+        return true;
+    }
+
+    var enterKeyPressed = false;
+
+    // Add an event listener to capture the Enter key press
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            // Set the flag to true when Enter key is pressed
+            enterKeyPressed = true;
+        }
+    });
+
 </script>
 
   </body>
