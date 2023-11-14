@@ -26,7 +26,7 @@ def index(request):
     games = Game.objects.all()
     teams = Team.objects.all()
     print(teams)
-    if not teams:
+    if len(teams) <= 1:
         form = MakeaBet(request.POST)
         result = []
         comment_form = MakeComment(request.POST)

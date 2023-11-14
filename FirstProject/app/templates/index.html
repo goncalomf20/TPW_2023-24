@@ -83,14 +83,17 @@
 
 
         {% if games %}
-            <br>
-            <p id="data">{{ games|last }}</p>
+            <p id="data" style="display: none">{{ games|last }}</p>
         {% else %}
             <br>
             <p id="data" style="display: none">No games available</p>
         {% endif %}
 
         {% if teams %}
+            {% if teams|length == 1 %}
+                <p>There is one team available, can not make any games</p>
+            {% else %}
+        {% endif %}
         {% else %}
             <p>No Teams available</p>
         {% endif %}
