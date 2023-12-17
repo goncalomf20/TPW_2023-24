@@ -207,6 +207,7 @@ bootstrap.min.css:5
   background-size: cover;
 }
 
+
 .baner-content {
 	width: 100%;
   	padding-top: 35vh;
@@ -259,8 +260,7 @@ bootstrap.min.css:5
 #about .service-item {
 	text-align: center;
 }
-
-#about .service-item .icon {
+#about #service4 .icon {
 	width: 110px;
 	height: 110px;
 	display: inline-block;
@@ -268,7 +268,44 @@ bootstrap.min.css:5
 	line-height: 104px;
 	border: 3px solid #fff;
 	border-radius: 50%;
-	background-color: #f7c552;
+	background-image: url(../img/service_icon_04.png);
+    background-size: cover; 
+}
+
+#about #service3 .icon {
+	width: 110px;
+	height: 110px;
+	display: inline-block;
+	text-align: center;
+	line-height: 104px;
+	border: 3px solid #fff;
+	border-radius: 50%;
+	background-image: url(../img/service_icon_03.png);
+    background-size: cover; 
+}
+
+#about #service2 .icon {
+	width: 110px;
+	height: 110px;
+	display: inline-block;
+	text-align: center;
+	line-height: 104px;
+	border: 3px solid #fff;
+	border-radius: 50%;
+	background-image: url(../img/service_icon_01.png);
+    background-size: cover; 
+}
+
+#about #service1 .icon {
+	width: 110px;
+	height: 110px;
+	display: inline-block;
+	text-align: center;
+	line-height: 104px;
+	border: 3px solid #fff;
+	border-radius: 50%;
+	background-image: url(../img/service_icon_02.png);
+    background-size: cover; 
 }
 
 #about .service-item h4 {
