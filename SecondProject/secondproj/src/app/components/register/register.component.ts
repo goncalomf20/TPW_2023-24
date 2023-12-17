@@ -4,12 +4,12 @@ import { FooterComponent } from '../footer/footer.component';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-register',
   standalone: true,
   imports: [NavbarComponent,FooterComponent,RouterModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.css'
 })
-export class LoginComponent {
+export class RegisterComponent {
 
 }

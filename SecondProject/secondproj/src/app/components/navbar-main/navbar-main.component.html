@@ -13,12 +13,12 @@
             <!--/.navbar-header-->
             <div id="main-nav" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="#" class="scroll-top">Home</a></li>
-                    <li><a href="#"  data-id="about">About Us</a></li>
-                    <li><a href="#"  data-id="portfolio">Portfolio</a></li>
-                    <li><a href="#"  data-id="blog">Blog</a></li>
-                    <li><a routerLink="login"  data-id="login">Login</a></li>
-                    <li><a href="#"  data-id="login ">Register</a></li>
+                    <li><a [routerLink]="['/home']"  class="scroll-top">Home</a></li>
+                    <li><a [routerLink]="['/statistics']" data-id="statistics">Statistics</a></li>
+                    <li><a [routerLink]="['/fantasy']" data-id="fantasy">Fantasy</a></li>
+                    <li><a [routerLink]="['/profile']" data-id="profile">Profile</a></li>
+                    <li><a [routerLink]="['/login']" data-id="login">Login</a></li>
+                    <li><a [routerLink]="['/register']" data-id="register ">Register</a></li>
                 </ul>
             </div>
             <!--/.navbar-collapse-->
@@ -28,3 +28,16 @@
     <!--/.container-->
 </div>
 <!--/.header-->
+
+
+<div class="parallax-content baner-content" id="home">
+    <div class="container">
+        <div class="text-content">
+            <h2><em>Sport</em><span>Sync</span> Center</h2>
+            <p>SportSync is interactive site developed for a costumized user experience of his/her favourite sport statistics, made for all the real enthusiasts of the sports</p>
+            <div class="primary-white-button">
+                <a href="#" class="scroll-link" data-id="about">Let's Start</a>
+            </div>
+        </div>
+    </div>
+</div>

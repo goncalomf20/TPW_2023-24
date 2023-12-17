@@ -1,0 +1,32 @@
+
+<div id="x" style="background-color: #000;">
+    <app-navbar></app-navbar>
+     
+    
+    <div class="container" style="padding-left: 35%; padding-bottom: 0%;">
+        <div class="form-container" id="signup-form" >
+          <h1>Sign Up</h1>
+          <form>
+            <div>
+                <label style="padding: 5%" for="new-fname">First Name</label>
+                <input  type="text" id="new-password" name="new-password" required>
+                <label style="padding: 5%" for="new-lname">Last Name</label>
+                <input  type="text" id="new-password" name="new-password" required>
+            </div>
+            <label for="new-username">Username</label>
+            <input type="text" id="new-username" name="new-username" required>
+            <label for="new-email">Email</label>
+            <input type="email" id="new-email" name="new-email" required>
+            <label for="new-password">Password</label>
+            <input type="password" id="new-password" name="new-password" required>
+            <button type="submit">Sign Up</button>
+          </form>
+          <p>Already have an account? <a [routerLink]="['/login']">Login</a></p>
+        </div>
+      </div>
+      
+    
+    
+    
+    <app-footer></app-footer>
+    </div>

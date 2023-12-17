@@ -1,15 +1,13 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-
-
 @Component({
-  selector: 'app-navbar',
+  selector: 'app-card-player',
   standalone: true,
   imports: [RouterModule],
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  templateUrl: './card-player.component.html',
+  styleUrl: './card-player.component.css'
 })
-export class NavbarComponent {
+export class CardPlayerComponent {
 
 }
