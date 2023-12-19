@@ -11,17 +11,27 @@
                 <a href="#" class="navbar-brand scroll-top"><em>S</em>port<em>S</em>ync</a>
             </div>
             <!--/.navbar-header-->
-            <div id="main-nav" class="collapse navbar-collapse">
+            <div id="main-nav" class="collapse navbar-collapse" *ngIf="auth == false; else elseBlock">
                 <ul class="nav navbar-nav">
                     <li><a [routerLink]="['/home']"  class="scroll-top">Home</a></li>
                     <li><a [routerLink]="['/statistics']" data-id="statistics">Statistics</a></li>
                     <li><a [routerLink]="['/fantasy']" data-id="fantasy">Fantasy</a></li>
-                    <li><a [routerLink]="['/profile']" data-id="profile">Profile</a></li>
                     <li><a [routerLink]="['/login']" data-id="login">Login</a></li>
                     <li><a [routerLink]="['/register']" data-id="register ">Register</a></li>
                 </ul>
             </div>
             <!--/.navbar-collapse-->
+            <ng-template #elseBlock>
+            <div id="main-nav" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a [routerLink]="['/profile']" data-id="profile">{{username}}</a></li>
+                    <li><a [routerLink]="['/home']"  class="scroll-top">Home</a></li>
+                    <li><a [routerLink]="['/statistics']" data-id="statistics">Statistics</a></li>
+                    <li><a [routerLink]="['/fantasy']" data-id="fantasy">Fantasy</a></li>
+                    <li><a (click)="logout()" data-id="login">Logout</a></li>
+                </ul>
+            </div>
+        </ng-template>
         </nav>
         <!--/.navbar-->
     </div>

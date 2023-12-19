@@ -5,20 +5,19 @@
 
 
 <div class="container " style="padding-left: 40%; padding-bottom: 5%;">
-    <div class="form-container" id="login-form">
+    <div class="form-container" id="login-form" >
       <h1>Login</h1>
-      <form>
+      <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" >
         <label for="username">Username</label>
-        <input type="text" id="username" name="username" required>
+        <input  type="text" id="username" name="username" formControlName="username" required>
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
+        <input  type="password" id="password"  name="password" formControlName="password" required>        
         <button type="submit">Login</button>
       </form>
       <p>Don't have an account? <a [routerLink]="['/register']" >Sign up</a></p>
     </div>
 
   </div>
-  
 
 
 

@@ -5,7 +5,8 @@ import { RegisterComponent } from './app/components/register/register.component'
 import { HomeComponent } from './app/components/home/home.component';
 import { FantasyComponent } from './app/components/fantasy/fantasy.component';
 import { ProfileComponent } from './app/components/profile/profile.component';
-import { StatisticsComponent } from './app/components/statistics/statistics.component';
+import { ModalidadeStatsComponent } from './app/components/modalidade-stats/modalidade-stats.component';
+import { ExclusiveModalComponent } from './app/components/exclusive-modal/exclusive-modal.component';
 
 const routeConfig: Routes = [
    {
@@ -40,8 +41,13 @@ const routeConfig: Routes = [
     },
     {
     path: 'statistics',
-    component: StatisticsComponent,
+    component: ModalidadeStatsComponent,
     title: 'Statistics Page',    
+    },
+    {
+    path: 'modal/:id',
+    component: ExclusiveModalComponent,
+    title: 'Modalidade',    
     },
     
 ];
