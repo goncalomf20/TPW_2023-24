@@ -1,5 +1,4 @@
-import { Injectable, importProvidersFrom } from '@angular/core';
-import { Modalidade } from './../models/modalidade'
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +15,8 @@ export class EquipasService {
     const equipas = await response.json()
     return equipas
     } 
+
+
   
   }
 

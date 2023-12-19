@@ -1,0 +1,11 @@
+.col-2 {
+    /* Add your styles for col-2 here */
+    width: 16.6667%; /* 100% divided by 6 columns */
+    float: left;
+    padding: 0 15px;
+    box-sizing: border-box;
+  }
+
+  .page {
+    margin-top: 100px; /* Adjust the margin as needed */
+  }

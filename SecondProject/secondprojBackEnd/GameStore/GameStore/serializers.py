@@ -7,7 +7,7 @@ class ModalidadeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class LigaSerializer(serializers.ModelSerializer):
-    ligas = LigaSerializer(many=True, read_only=True)
+
     class Meta:
         model = Liga
         fields = '__all__'
@@ -18,6 +18,7 @@ class GrupoSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class EquipaSerializer(serializers.ModelSerializer):
+    ligas = LigaSerializer(many=True, read_only=True)
     class Meta:
         model = Equipa
         fields = '__all__'

@@ -18,7 +18,7 @@ class Liga(models.Model):
     equipas = models.ManyToManyField('Equipa', blank=True)
 
     def __str__(self, modalidade=None):
-        return "Liga de " + str(self.pais) + " do ano " + str(self.ano) + " na modalidade " + str(modalidade.nome)
+        return "Liga de " + str(self.pais) + " do ano " + str(self.ano) + " na modalidade"
 
 class Grupo(models.Model):
     nome = models.CharField(max_length=10)
@@ -40,7 +40,7 @@ class Jogador(models.Model):
     pontos = models.IntegerField(default=0, blank=True)
 
     def __str__(self):
-        return "Jogador " + str(self)
+        return "Jogador " + str(self.fullname)
 
 class Jogo(models.Model):
     equipa_casa = models.ForeignKey('Equipa', on_delete=models.CASCADE)
@@ -53,7 +53,7 @@ class Jogo(models.Model):
     data = models.DateField()
 
     def __str__(self):
-        return "Jogo " + str(self.id_jogo) +" em " + str(self.data) + " da liga " + str(self.liga)
+        return "Jogo em " + str(self.data) + " da liga " + str(self.liga)
 
 class Evento(models.Model):
     jogador = models.ForeignKey('Jogador', on_delete=models.CASCADE)

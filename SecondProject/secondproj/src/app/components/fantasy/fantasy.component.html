@@ -1,5 +1,11 @@
 <div class="page">
     <app-navbar></app-navbar>
-    
+
+    <div class="row">
+        <div class="col-2" *ngFor="let jogador of jogadores; let i = index">
+            <p>{{ jogador.fullname }} {{ i }}</p>
+        </div>
+    </div>
+
     <app-footer></app-footer>
 </div>
