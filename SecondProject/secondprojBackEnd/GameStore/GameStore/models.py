@@ -76,9 +76,10 @@ class User(models.Model):
     username = models.CharField(max_length=20, blank=True)
     FirstName = models.CharField(max_length=20, blank=True)
     LastName = models.CharField(max_length=20, blank=True)
-    password = models.CharField(max_length=8, default='<PASSWORD>')
+    password = models.CharField(max_length=20, default='<PASSWORD>')
     email = models.EmailField()
     role = models.CharField(max_length=8)
+    token = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
         return self.username

@@ -50,6 +50,7 @@ urlpatterns = [
     path('ws/equipa/delete/<int:id>', views.del_equipa),
     path('ws/equipa/get/<int:id>', views.get_equipaid),
     path('ws/equipa/get', views.get_all_equipa),
+    path('ws/equipa/getByModalidade/<int:id>', views.getByModalidade),
     path('ws/equipa/update/<int:id>', views.update_equipa),
     path('ws/equipa/post', views.post_equipa),
 
@@ -66,6 +67,7 @@ urlpatterns = [
     path('ws/jogo/delete/<int:id>', views.del_jogo),
     path('ws/jogo/get/<int:id>', views.get_jogoid),
     path('ws/jogo/get', views.get_all_jogo),
+    path('ws/jogo/getEventos/<int:id>', views.eventos_jogo),
     path('ws/jogo/update/<int:id>', views.update_jogo),
     path('ws/jogo/post', views.post_jogo),
 

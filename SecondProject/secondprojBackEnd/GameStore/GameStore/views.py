@@ -1,6 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+import jwt
 from .models import (
     Modalidade,
     Liga,
@@ -211,6 +212,24 @@ def get_equipaid(request, id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])
+def getByModalidade(request, id):
+    try:
+        equipa = Equipa.objects.get(id=id)
+
+        ligas = Liga.objects.filter(modalidade=id)
+
+        equipas = []
+        for liga in ligas:
+            equipas.extend(liga.equipas.all())
+        print(equipas)
+
+
+        serializer = EquipaSerializer(equipas, many=True)
+        return Response(serializer.data)
+    except Equipa.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
 def get_all_equipa(request):
     equipas = Equipa.objects.all()
     serializer = EquipaSerializer(equipas, many=True)
@@ -312,6 +331,21 @@ def get_jogoid(request, id):
     try:
         jogo = Jogo.objects.get(id=id)
         serializer = JogoSerializer(jogo)
+        return Response(serializer.data)
+    except Jogo.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def eventos_jogo(request, id):
+    try:
+        jogo = Jogo.objects.get(id=id)
+
+        eventos_jogo = Evento.objects.filter(jogo=id).all()
+        print(eventos_jogo)
+
+        # Use the EventoSerializer for serialization
+        serializer = EventoSerializer(eventos_jogo, many=True)
+
         return Response(serializer.data)
     except Jogo.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
@@ -500,7 +534,19 @@ def update_user(request, id):
 
 @api_view(['POST'])
 def post_user(request):
-    serializer = UserSerializer(data=request.data)
+    sk = 'your-secret-key-here'
+
+    payload_data = {
+        'username': request.data['username'],
+    }
+
+    token = jwt.encode(payload_data, sk, algorithm='HS256')
+
+    print(request.data)
+    data_info = request.data
+    data_info["token"] = token
+    serializer = UserSerializer(data=data_info)
+
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
