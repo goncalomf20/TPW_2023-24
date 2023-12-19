@@ -20,6 +20,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 export class FantasyComponent {
   jogadores: Jogador[] = [];
   jogService : JogadorService = inject(JogadorService)
+jogador: any;
 
 
   constructor() {
