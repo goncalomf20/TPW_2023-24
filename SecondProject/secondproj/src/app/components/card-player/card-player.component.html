@@ -1,38 +1,46 @@
-<section class="container">
+
+<div id="xx">
+<h1>{{data?.nome}}</h1>
+<h2>Country: {{data?.pais}}</h2>
+<h2>Year: {{data?.ano}}</h2>
+<h2>ID: {{data?.id}}</h2>
+
+
+<section class="container" >
     <section class="card__container">
-      <div class="card__bx" style="--clr: #89ec5b">
+      <div class="card__bx" style="--clr: #000">
         <div class="card__data">
           <div class="card__icon">
-            <i class="fa-solid fa-paintbrush"></i>
+            <i class="fa-solid "></i>
           </div>
           <div class="card__content">
-            <h3>Designing</h3>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-            <a href="#">Read More</a>
+            <h3>Standings</h3>
+            <p>Watch here all the teams are placed</p>
+            <a [routerLink]="['/standings']" (click)="setS(data?.id)">Click Here</a>
           </div>
         </div>
       </div>
-      <div class="card__bx" style="--clr: #eb5ae5">
+      <div class="card__bx" style="--clr: #c2b719">
         <div class="card__data">
           <div class="card__icon">
-            <i class="fa-solid fa-code"></i>
+            <i class="fa-solid "></i>
           </div>
           <div class="card__content">
-            <h3>Develoment</h3>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-            <a href="#">Read More</a>
+            <h3>Players Stats</h3>
+            <p>Want to know how you're favourite player's favourite player is doing</p>
+            <a [routerLink]="['/players']" (click)="setS(data?.id)">Click Here</a>
           </div>
         </div>
       </div>
-      <div class="card__bx" style="--clr: #5b98eb">
+      <div class="card__bx" style="--clr: #033b66">
         <div class="card__data">
           <div class="card__icon">
-            <i class="fa-brands fa-searchengin"></i>
+            <i class="fa-brands "></i>
           </div>
           <div class="card__content">
-            <h3>SEO</h3>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-            <a href="#">Read More</a>
+            <h3>Team Stats</h3>
+            <p>Is it your favourite team or you just betted in it? Anyway, come here and watch some big time statitics</p>
+            <a [routerLink]="['/teams']" (click)="setS(data?.id)">Click Here</a>
           </div>
         </div>
       </div>
@@ -40,3 +48,4 @@
     </section>
   
   </section>
+</div>

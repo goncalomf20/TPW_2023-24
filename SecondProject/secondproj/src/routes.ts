@@ -7,6 +7,10 @@ import { FantasyComponent } from './app/components/fantasy/fantasy.component';
 import { ProfileComponent } from './app/components/profile/profile.component';
 import { ModalidadeStatsComponent } from './app/components/modalidade-stats/modalidade-stats.component';
 import { ExclusiveModalComponent } from './app/components/exclusive-modal/exclusive-modal.component';
+import { StandingsComponent } from './app/components/standings/standings.component';
+import { AllPlayerStatsComponent } from './app/components/all-player-stats/all-player-stats.component';
+import { AllTeamStatsComponent } from './app/components/all-team-stats/all-team-stats.component';
+import { AllFantasyTeamsComponent } from './app/components/all-fantasy-teams/all-fantasy-teams.component';
 
 const routeConfig: Routes = [
    {
@@ -48,6 +52,26 @@ const routeConfig: Routes = [
     path: 'modal/:id',
     component: ExclusiveModalComponent,
     title: 'Modalidade',    
+    },
+    {
+    path: 'standings',
+    component: StandingsComponent,
+    title: "Standings",
+    },
+    {
+    path: 'players',
+    component: AllPlayerStatsComponent,
+    title: "Players",
+    },
+    {
+    path: 'teams' ,
+    component: AllTeamStatsComponent,
+    title: "Teams"
+    },
+    {
+    path: 'all/:modalidade',
+    component: AllFantasyTeamsComponent, // Add the new component for 'All Fantasy Teams'
+    title: 'All Fantasy Teams Page',
     },
     
 ];

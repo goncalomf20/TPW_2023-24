@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ExclusiveModalComponent } from '../exclusive-modal/exclusive-modal.component';
+import { GetModalIdService } from '../../services/shared/get-modal-id.service';
 
 @Component({
   selector: 'app-card-modalidade',
@@ -10,5 +11,13 @@ import { ExclusiveModalComponent } from '../exclusive-modal/exclusive-modal.comp
   styleUrl: './card-modalidade.component.css'
 })
 export class CardModalidadeComponent {
+
+  shared: GetModalIdService
+  constructor(shared:GetModalIdService){
+    this.shared = shared
+  }
+  setS(id:number){
+    this.shared?.setId(id)
+  }
 
 }

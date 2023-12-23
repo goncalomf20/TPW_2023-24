@@ -1,11 +1,13 @@
 import { Injectable, importProvidersFrom } from '@angular/core';
 import { Users } from './../models/users'
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
 
+  private userNameSubject = new BehaviorSubject<string | null>(null);
   private url: string = "http://127.0.0.1:8000/ws/"
 
   constructor() { }
@@ -15,6 +17,26 @@ export class UsersService {
     const response: Response = await fetch(url)
     return await response.json() ?? []
     } 
+
+  async getUsersByName(name : string): Promise<Users> {
+      const url = this.url + "user/getByName/" + name
+      const response: Response = await fetch(url)
+      return await response.json() ?? []
+      } 
+  
+  async getUsersById(id : number): Promise<Users> {
+      const url = this.url + "user/get/" + id
+      const response: Response = await fetch(url)
+      return await response.json() ?? []
+      }
+
+  get userName$() {
+        return this.userNameSubject.asObservable();
+      }
+    
+  setUserName(userName: string) {
+        this.userNameSubject.next(userName);
+      }
 
   async addUser(proto: Partial<{ username: string | null; password: string | null; fname: string | null; lname: string | null; email: string | null; }>): Promise<Users> {
     const z = this.url + "user/post"

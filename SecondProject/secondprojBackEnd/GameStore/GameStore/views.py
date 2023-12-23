@@ -97,6 +97,74 @@ def del_liga(request, id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])
+def jogadorByModalidade(request, id):
+    try:
+        ligas = Liga.objects.filter(modalidade=id).all()
+        all_jogadores_m = []
+        for liga in ligas:
+            for equipa in liga.equipas.all():
+                print(equipa)
+                jogadores = Jogador.objects.filter(id_equipa=equipa.id).all()
+                all_jogadores_m.extend(jogadores)
+
+       # jogador = Jogador.objects.get(id=id)
+        serializer = JogadorSerializer(all_jogadores_m, many=True)
+        return Response(serializer.data)
+    except Jogador.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def ligaByModalidade(request, id):
+    try:
+        ligas = Liga.objects.filter(modalidade=id).all()
+
+        # jogador = Jogador.objects.get(id=id)
+        serializer = LigaSerializer(ligas, many=True)
+        return Response(serializer.data)
+    except ligas.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def jogadorByLiga(request, id):
+    try:
+        ligas = Liga.objects.filter(id=id).all()
+
+        if not ligas:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        all_jogadores_m = []
+
+        for liga in ligas:
+            for equipa in liga.equipas.all():
+                print(equipa)
+                jogadores = Jogador.objects.filter(id_equipa=equipa.id).all()
+                all_jogadores_m.extend(jogadores)
+
+        serializer = JogadorSerializer(all_jogadores_m, many=True)
+        return Response(serializer.data)
+    except Jogador.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def equipaByLiga(request, id):
+    try:
+        ligas = Liga.objects.filter(id=id).all()
+
+        if not ligas:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        all_jogadores_m = []
+
+        for liga in ligas:
+            equipas = liga.equipas.all()
+
+        serializer = EquipaSerializer(equipas, many=True)
+        return Response(serializer.data)
+    except Equipa.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
 def get_ligaid(request, id):
     try:
         liga = Liga.objects.get(id=id)
@@ -342,6 +410,82 @@ def eventos_jogo(request, id):
 
         eventos_jogo = Evento.objects.filter(jogo=id).all()
         print(eventos_jogo)
+
+        # Use the EventoSerializer for serialization
+        serializer = EventoSerializer(eventos_jogo, many=True)
+
+        return Response(serializer.data)
+    except Jogo.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def get_modalidadeByName(request, id):
+    try:
+        modalidade = Modalidade.objects.get(nome=id)
+    except Modalidade.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = ModalidadeSerializer(modalidade)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def jogadorByModalidade(request, id):
+    try:
+        ligas = Liga.objects.filter(modalidade=id).all()
+        for l in ligas:
+            print(l)
+
+        all_jogadores_m = []
+        for liga in ligas:
+            for equipa in liga.equipas.all():
+                print(equipa, equipa.id)
+                jogadores = Jogador.objects.filter(id_equipa=equipa.id).all()
+                all_jogadores_m.extend(jogadores)
+
+       # jogador = Jogador.objects.get(id=id)
+        serializer = JogadorSerializer(all_jogadores_m, many=True)
+        return Response(serializer.data)
+    except Jogador.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def getByName(request, name):
+    try:
+        user = User.objects.filter(username=name).first()
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
+def getByuser(request, id):
+    try:
+        fantasyteam = FantasyTeam.objects.filter(user=id).all()
+        serializer = FantasyTeamSerializer(fantasyteam, many=True)
+        return Response(serializer.data)
+    except FantasyTeam.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def fantaByModalidade(request, id):
+    try:
+
+        modalidade = Modalidade.objects.filter(nome=id).first()
+
+
+        fantasyteam = FantasyTeam.objects.filter(modalidade=modalidade.id).all()
+        serializer = FantasyTeamSerializer(fantasyteam, many=True)
+        return Response(serializer.data)
+    except FantasyTeam.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
+def eventos_jogador(request, id):
+    try:
+        jogador = Jogador.objects.get(id=id)
+
+        eventos_jogo = Evento.objects.filter(jogador=jogador).all()
 
         # Use the EventoSerializer for serialization
         serializer = EventoSerializer(eventos_jogo, many=True)

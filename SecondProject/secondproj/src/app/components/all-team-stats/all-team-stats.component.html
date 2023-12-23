@@ -1,0 +1,11 @@
+<app-navbar></app-navbar>
+
+<div class="container" style="padding-top: 5%;">
+  <div class="row">
+    <div *ngFor="let equipa of equipas" class="col-4">
+      <app-t-card [equipa]="equipa"></app-t-card>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Jogador } from '../models/jogador';
+import { Evento } from '../models/evento'
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +11,41 @@ export class JogadorService {
 
   constructor() { }
 
-  async getJogadores(): Promise<Jogador[]> {
-    const url = this.url + "jogador/get"
-    const response: Response = await fetch(url)
-    return await response.json() ?? []
-    } 
+      async getJogadores(): Promise<Jogador[]> {
+        const url = this.url + "jogador/get"
+        const response: Response = await fetch(url)
+        return await response.json() ?? []
+        }
+
+    async getJogadoresByModalID(id:number): Promise<Jogador[]> {
+        const url = this.url + "jogador/get/byModalidade/" + id
+        const response: Response = await fetch(url)
+        return await response.json() ?? []
+        } 
+
+    async getJogadoresByLigaID(id:number): Promise<Jogador[]> {
+        const url = this.url + "jogador/get/jogadorByLiga/" + id
+        const response: Response = await fetch(url)
+        return await response.json() ?? []
+        }
+
+    async getEventosByJogadorID(id:number): Promise<Evento[]> {
+      const url = this.url + "evento/get/jogador" + id
+      const response: Response = await fetch(url)
+      return await response.json() ?? []
+    }
+
+    async getJogadoresById(id : number): Promise<Jogador> {
+      const url = this.url + "jogador/get/" + id
+      const response: Response = await fetch(url)
+      return await response.json() ?? []
+      }
+      
+    async getJogadoresByModalidade(id_modalidade : number): Promise<Jogador[]> {
+      const url = this.url + "jogador/jogadorByModalidade/" + id_modalidade
+      const response: Response = await fetch(url)
+      return await response.json() ?? []
+      } 
 
   // async addUser(proto: Partial<{ username: string | null; password: string | null; fname: string | null; lname: string | null; email: string | null; }>): Promise<Users> {
   //   const z = this.url + "user/post"

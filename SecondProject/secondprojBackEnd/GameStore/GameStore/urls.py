@@ -36,6 +36,7 @@ urlpatterns = [
     path('ws/liga/get', views.get_all_liga),
     path('ws/liga/update/<int:id>', views.update_liga),
     path('ws/liga/post', views.post_liga),
+    path('ws/liga/ligaByModalidade/<int:id>', views.ligaByModalidade),
 
     # Web Services for Grupo
     path('ws/grupo/delete', views.del_all_grupo),
@@ -46,6 +47,7 @@ urlpatterns = [
     path('ws/grupo/post', views.post_grupo),
 
     # Web Services for Equipa
+
     path('ws/equipa/delete', views.del_all_equipa),
     path('ws/equipa/delete/<int:id>', views.del_equipa),
     path('ws/equipa/get/<int:id>', views.get_equipaid),
@@ -53,14 +55,17 @@ urlpatterns = [
     path('ws/equipa/getByModalidade/<int:id>', views.getByModalidade),
     path('ws/equipa/update/<int:id>', views.update_equipa),
     path('ws/equipa/post', views.post_equipa),
+    path('ws/equipa/get/equipaByLiga/<int:id>', views.equipaByLiga),
 
     # Web Services for Jogador
+    path('ws/jogador/get/byModalidade/<int:id>', views.jogadorByModalidade),
     path('ws/jogador/delete', views.del_all_jogador),
     path('ws/jogador/delete/<int:id>', views.del_jogador),
     path('ws/jogador/get/<int:id>', views.get_jogadorid),
     path('ws/jogador/get', views.get_all_jogador),
     path('ws/jogador/update/<int:id>', views.update_jogador),
     path('ws/jogador/post', views.post_jogador),
+    path('ws/jogador/get/jogadorByLiga/<int:id>', views.jogadorByLiga),
 
     # Web Services for Jogo
     path('ws/jogo/delete', views.del_all_jogo),
@@ -78,6 +83,7 @@ urlpatterns = [
     path('ws/evento/get', views.get_all_evento),
     path('ws/evento/update/<int:id>', views.update_evento),
     path('ws/evento/post', views.post_evento),
+    path('ws/evento/get/jogador/<int:id>', views.eventos_jogador),
 
     # Web Services for Classificacao
     path('ws/classificacao/delete', views.del_all_classificacao),
@@ -102,4 +108,10 @@ urlpatterns = [
     path('ws/fantasyteam/get', views.get_all_fantasyteam),
     path('ws/fantasyteam/update/<int:id>', views.update_fantasyteam),
     path('ws/fantasyteam/post', views.post_fantasyteam),
+
+    path('ws/modalidade/getByname/<str:id>', views.get_modalidadeByName),
+    path('ws/jogador/jogadorByModalidade/<int:id>', views.jogadorByModalidade),
+    path('ws/user/getByName/<str:name>', views.getByName),
+    path('ws/fantasyteam/getByuser/<int:id>', views.getByuser),
+    path('ws/fantasyteam/fantaByModalidade/<str:id>', views.fantaByModalidade),
 ]

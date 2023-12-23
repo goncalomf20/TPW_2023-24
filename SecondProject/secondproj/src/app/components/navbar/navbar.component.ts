@@ -32,6 +32,7 @@ constructor(){
     console.log(user)
     if (user) {
       this.username = user.username
+      this.usersService.setUserName(user.username);
       this.auth = true;
     } else {
      console.error('Invalid token or unexistent token');

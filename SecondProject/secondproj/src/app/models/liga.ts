@@ -7,6 +7,6 @@ export interface Liga{
     ano: Data,
     fase : string,
     pais : string,
-    modalidade : Modalidade,
+    modalidade : number,
     equipas : Equipa[]
 }   

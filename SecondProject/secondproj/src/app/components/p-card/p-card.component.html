@@ -1,0 +1,51 @@
+
+<!-- flip-card-container -->
+<div class="flip-card-container" style="--hue: 220; margin:  5%;" >
+    <div class="flip-card">
+  
+      <div class="card-front">
+        <figure>
+          <div class="img-bg"></div>
+          <img src={{url}} alt="Brohm Lake">
+          <figcaption>{{jogador?.fullname}}</figcaption>
+        </figure>
+        
+        <ul *ngIf="id == 3">
+          <li>Goals: {{goals}}</li>
+          <li>Yellow Cards: {{yellow_cards}}</li>
+          <li>Red Cards: {{red_cards}}</li>
+          <li>Value: {{jogador?.valor}}</li>
+          <li>FantasyLeague Points: {{jogador?.pontos}}</li>
+        </ul>
+        <ul *ngIf="id == 4">
+            <li>Points: {{points}}</li>
+            <li>Rebounds: {{rebounds}}</li>
+            <li>Assists: {{assists}}</li>
+            <li>FantasyLeague Points: {{jogador?.pontos}}</li>
+          </ul>
+      </div>
+  
+      <div class="card-back">
+        <figure>
+          <div class="img-bg"></div>
+          <img src={{url}}>
+        </figure>
+  
+        <button>Team</button>
+  
+        <div class="design-container">
+          <span class="design design--1"></span>
+          <span class="design design--2"></span>
+          <span class="design design--3"></span>
+          <span class="design design--4"></span>
+          <span class="design design--5"></span>
+          <span class="design design--6"></span>
+          <span class="design design--7"></span>
+          <span class="design design--8"></span>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  <!-- /flip-card-container -->
+  

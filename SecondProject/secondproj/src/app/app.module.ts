@@ -1,10 +1,11 @@
 // app.module.ts
 
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module'; // Import the AppRoutingModule
 import { HttpClientModule } from '@angular/common/http';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 
 @NgModule({

@@ -1,3 +1,5 @@
 <app-navbar></app-navbar>
-
+<div *ngFor="let liga of ligas">
+<app-card-player [data]="liga"></app-card-player>
+</div>
 <app-footer></app-footer>

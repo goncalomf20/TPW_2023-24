@@ -35,8 +35,12 @@
               "src/assets/css/owl-carousel.css",
               "src/assets/css/templatemo-style.css",
               "src/assets/css/lightbox.css"
+            
             ],
-            "scripts": []
+            "scripts": ["node_modules/jquery/dist/jquery.min.js",
+            "node_modules/popper.js/dist/umd/popper.min.js",
+            "node_modules/bootstrap/dist/js/bootstrap.min.js"
+          ]
           },
           "configurations": {
             "production": {

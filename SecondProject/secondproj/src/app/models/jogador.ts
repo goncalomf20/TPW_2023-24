@@ -4,6 +4,6 @@ export interface Jogador{
     fullname: string,
     valor: number,
     pontos: number,
-    Equipa: Equipa,
+    id_equipa: number,
    
 }
