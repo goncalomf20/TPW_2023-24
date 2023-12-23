@@ -1,8 +1,8 @@
-import { Component, OnInit , inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Users } from '../../models/users';
 import { UsersService } from '../../services/users.service';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
@@ -32,6 +32,7 @@ constructor(){
     console.log(user)
     if (user) {
       this.username = user.username
+      this.usersService.setUserName(user.username);
       this.auth = true;
     } else {
      console.error('Invalid token or unexistent token');

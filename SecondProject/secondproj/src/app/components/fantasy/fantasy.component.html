@@ -1,34 +1,131 @@
+<app-navbar></app-navbar>
+<div class="container" id="table-container">
+  <div style="padding-top: 150px;">
+    <button class="btn-warning" (click)="navigateToComponent(selectedModalidade)">
+      All Fantasy Teams of {{ selectedModalidade }}
+    </button>
+  </div>
 
-    <app-navbar></app-navbar>
-<div id="table-container">  
+  <div class="button-container" style="padding-top: 20px;">
+    <button
+      class="btn btn-primary"
+      *ngFor="let modalidade of modalidades"
+      (click)="changeModalidade(modalidade.nome)"
+    >
+      {{ modalidade.nome }}
+    </button>
+  </div>
 
-  
+  <!-- If the user doesn't have a fantasy team, provide an option to create one -->
+  <div *ngIf="users_Fantasies_modality[selectedModalidade]; else existingTeamBlock">
+    <h2>Your Fantasy Team {{ selectedModalidade }} : {{ selected_fantasy?.team_name }}</h2>
+    <!-- Display details of the user's existing fantasy team -->
+    <!-- ... (existing code) -->
 
-<table id="myTable"  >
-  <thead>
-    <tr>
-      <th>Status</th>
-      <th>Name</th>
-      <th>Team</th>
-    </tr>
-  </thead>
-  <tbody>
-    
-    
-        <tr *ngFor="let jogador of jogadores; let i = index" >
-        <td><span *ngIf="jogador.valor != 0.00" class="dot green"></span> </td>
-        <td>{{jogador.fullname}}</td>
-        <td *ngIf="jogador.valor != 0.00">{{jogador.valor}}</td>
-        </tr>
-    
+    <!-- Add a button to delete the team -->
+    <button class="btn-danger" (click)="deleteFantasyTeam(users_Fantasies_modality[selectedModalidade]?.id)">
+      Delete Fantasy Team
+    </button>
 
+    <div class="row">
+      <div class="col-md-6">
+        <h2>All Players</h2>
+        <h3>Current team value {{ total_team_price }} €</h3>
+        <table id="myTable">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Value</th>
+              <!-- Add other header columns as needed -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let jogador of jogadores; let i = index">
+              <td><span *ngIf="jogador.valor != 0.00" class="dot green"></span></td>
+              <td>{{ jogador.fullname }} {{ jogador.id }}</td>
+              <td *ngIf="jogador.valor != 0.00">{{ jogador?.valor }}</td>
+              <td>
+                <!-- Check if jogador.id is in this.teamButtonIndices -->
+                <ng-container *ngIf="teamButtonIndices.includes(jogador.id)">
+                  <!-- Render different button if true -->
+                  <button (click)="remove_from_team(jogador)" class="btn btn-danger">-</button>
+                </ng-container>
+                <ng-container *ngIf="!teamButtonIndices.includes(jogador.id)">
+                  <!-- Render default button if false -->
+                  <button (click)="add_to_team(jogador)" class="btn btn-success">+</button>
+                </ng-container>
+              </td>
+              <td></td>
+              <td></td>
+              <!-- Add other columns as needed -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-6">
+        <h2>Team</h2>
 
-  </tbody>
-</table>
+        <div class="row">
+          <button
+            class="btn col-md-4 "
+            *ngFor="let index of teamButtonIndices"
+            [ngClass]="{
+              'btn-primary': index === 0,
+              'btn-success': getJogadorById(index) !== undefined,
+              'btn-secondary': getJogadorById(index) === undefined
+            }"
+          >
+            <!-- Use index in your button content or logic -->
+            <ng-container *ngIf="index === 0; else otherContent">
+              <!-- Content for index 0 -->
+              Add a player
+            </ng-container>
+            <ng-template #otherContent>
+              <ng-container *ngIf="getJogadorById(index) as jogador">
+                {{ jogador.fullname }}
+                <button
+                  *ngIf="!team_capi"
+                  class="btn btn-warning"
+                  (click)="select_a_capiton(jogador)"
+                >
+                  C
+                </button>
+                <button
+                  *ngIf="team_capi && team_capi.id === jogador.id"
+                  class="btn btn-danger"
+                  (click)="remove_capiton()"
+                >
+                  -
+                </button>
+              </ng-container>
+            </ng-template>
+          </button>
+        </div>
 
-<div class="container" >
+        <button
+          class="btn btn-warning mt-3"
+          *ngIf="shouldShowUpdateButton()"
+          (click)="updateTeam()"
+        >
+          Update Team
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Else block for creating a new fantasy team -->
+  <ng-template #existingTeamBlock>
+    <div *ngIf="!users_Fantasies_modality[selectedModalidade]">
+      <h2>Create a Fantasy Team {{ selectedModalidade }}</h2>
+      <form [formGroup]="formGroup" (ngSubmit)="createFantasyTeam()">
+        <label for="teamName">Team Name:</label>
+        <input type="text" id="teamName" formControlName="teamName" />
+        <button type="submit">Create New Fantasy Team</button>
+      </form>
+    </div>
+  </ng-template>
 
 </div>
-
-</div>
-    <app-footer></app-footer>
+<app-footer></app-footer>
+<router-outlet></router-outlet>

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Equipa } from '../models/equipa';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,12 @@ export class EquipasService {
     return equipas
     } 
 
+  async getEquipaById(id : number): Promise<Equipa> {
+    const url = this.url + "equipa/get/" + id
+    const response = await fetch(url)
+    const equipa = await response.json()
+    return equipa
+    }
 
   
   }

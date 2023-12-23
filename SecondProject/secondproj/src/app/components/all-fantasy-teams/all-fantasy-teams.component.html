@@ -1,0 +1,57 @@
+<app-navbar></app-navbar>
+
+<div class="container" id="table-container">  
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    
+    <div style="margin-bottom: 100px;">
+        <h2>{{modalidade}}</h2>
+        <div class="row">
+            <div class="col-md-4" *ngFor="let item of user_fanta | keyvalue">
+                <h3>User: {{item.key}}</h3>
+                
+                <!-- Display players for each user -->
+                <div *ngFor="let fantasyTeam of item.value">
+                    <h4>Team Name: {{fantasyTeam.team_name}}</h4>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4>Players</h4>
+                            <div *ngFor="let player of user_players[item.key]">
+                                <p>{{player.fullname}}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h4>Team</h4>
+                            <div *ngFor="let player of user_players[item.key]">
+                                <p>{{jogador_equipa[player.fullname]?.nome}}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h4>Points</h4>
+                            <div *ngFor="let player of user_players[item.key]">
+                                <p>{{player.pontos}}</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    
+                    
+                    <!-- Display total price and points for each team -->
+                    <h5>Capitan: {{fantasyTeam.capitan}} </h5>
+                    <h5>Total Price: {{user_total_price[item.key]}}</h5>
+                    <h5>Total Points: {{user_total_points[item.key]}}</h5>
+                </div>
+            </div>
+        </div>
+          
+          
+    </div>
+    
+</div>
+
+<app-footer></app-footer>

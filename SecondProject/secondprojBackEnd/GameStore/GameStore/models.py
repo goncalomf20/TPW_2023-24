@@ -5,6 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Modalidade(models.Model):
     nome = models.CharField(max_length=10, unique=True)
+    nr_jogadores = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return self.nome
@@ -86,8 +87,8 @@ class User(models.Model):
 
 class FantasyTeam(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE)
-    liga = models.ForeignKey('Liga', on_delete=models.CASCADE)
+    modalidade = models.ForeignKey('Modalidade', on_delete=models.CASCADE, null=True)
     team_name = models.CharField(max_length=20)
-    players = models.ManyToManyField('Jogador')
-    capitan = models.CharField(max_length=20, blank=True)
+    players = models.ManyToManyField('Jogador', default=[])
+    capitan = models.CharField(max_length=20, blank=True, default="")
 

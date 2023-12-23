@@ -1,4 +1,6 @@
-
+/* @import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~bootstrap/dist/js/bootstrap.bundle.min.js'; */
+/* 
 body {
   height: 100vh;
   display: flex;
@@ -80,3 +82,9 @@ button {
   font-family: sans-serif;
   cursor: pointer
 }
+
+.button-container {
+    display: flex;
+    justify-content: space-around;
+    margin: 100px 0;
+  } */

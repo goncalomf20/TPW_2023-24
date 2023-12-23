@@ -1,5 +1,7 @@
-import { Injectable, importProvidersFrom } from '@angular/core';
-import { Users } from './../models/users'
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { Users } from './../models/users';
+
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +10,8 @@ export class UsersService {
 
   private url: string = "http://127.0.0.1:8000/ws/"
 
+  private userNameSubject = new BehaviorSubject<string | null>(null);
+
   constructor() { }
 
   async getUsers(): Promise<Users[]> {
@@ -15,6 +19,18 @@ export class UsersService {
     const response: Response = await fetch(url)
     return await response.json() ?? []
     } 
+
+  async getUsersByName(name : string): Promise<Users> {
+    const url = this.url + "user/getByName/" + name
+    const response: Response = await fetch(url)
+    return await response.json() ?? []
+    } 
+
+  async getUsersById(id : number): Promise<Users> {
+    const url = this.url + "user/get/" + id
+    const response: Response = await fetch(url)
+    return await response.json() ?? []
+    }
 
   async addUser(proto: Partial<{ username: string | null; password: string | null; fname: string | null; lname: string | null; email: string | null; }>): Promise<Users> {
     const z = this.url + "user/post"
@@ -37,6 +53,14 @@ export class UsersService {
       body: JSON.stringify(user)
     })
     return await response.json()
+  }
+
+  get userName$() {
+    return this.userNameSubject.asObservable();
+  }
+
+  setUserName(userName: string) {
+    this.userNameSubject.next(userName);
   }
 }
 

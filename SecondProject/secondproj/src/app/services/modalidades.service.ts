@@ -16,5 +16,12 @@ export class ModalidadesService {
     return modalidades
     } 
   
+  async getByName(id : string): Promise<any> {
+    const url = this.url + "modalidade/getByname/" + id
+    const response = await fetch(url)
+    const modalidade = await response.json()
+    return modalidade
+    }
+
   
 }

@@ -43,6 +43,16 @@ def get_modalidadeid(request, id):
     serializer = ModalidadeSerializer(modalidade)
     return Response(serializer.data)
 
+@api_view(['GET'])
+def get_modalidadeByName(request, id):
+    try:
+        modalidade = Modalidade.objects.get(nome=id)
+    except Modalidade.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = ModalidadeSerializer(modalidade)
+    return Response(serializer.data)
+
+
 @api_view(['POST'])
 def post_modalidade(request):
     serializer = ModalidadeSerializer(data=request.data)
@@ -284,6 +294,27 @@ def get_jogadorid(request, id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])
+def jogadorByModalidade(request, id):
+    try:
+        ligas = Liga.objects.filter(modalidade=id).all()
+        for l in ligas:
+            print(l)
+
+        all_jogadores_m = []
+        for liga in ligas:
+            for equipa in liga.equipas.all():
+                print(equipa, equipa.id)
+                jogadores = Jogador.objects.filter(id_equipa=equipa.id).all()
+                all_jogadores_m.extend(jogadores)
+
+       # jogador = Jogador.objects.get(id=id)
+        serializer = JogadorSerializer(all_jogadores_m, many=True)
+        return Response(serializer.data)
+    except Jogador.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
 def get_all_jogador(request):
     jogadores = Jogador.objects.all()
     serializer = JogadorSerializer(jogadores, many=True)
@@ -511,6 +542,16 @@ def get_userid(request, id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])
+def getByName(request, name):
+    try:
+        user = User.objects.filter(username=name).first()
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
 def get_all_user(request):
     users = User.objects.all()
     serializer = UserSerializer(users, many=True)
@@ -575,6 +616,31 @@ def get_fantasyteamid(request, id):
         return Response(serializer.data)
     except FantasyTeam.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
+def getByuser(request, id):
+    try:
+        fantasyteam = FantasyTeam.objects.filter(user=id).all()
+        serializer = FantasyTeamSerializer(fantasyteam, many=True)
+        return Response(serializer.data)
+    except FantasyTeam.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def fantaByModalidade(request, id):
+    try:
+
+        modalidade = Modalidade.objects.filter(nome=id).first()
+
+
+        fantasyteam = FantasyTeam.objects.filter(modalidade=modalidade.id).all()
+        serializer = FantasyTeamSerializer(fantasyteam, many=True)
+        return Response(serializer.data)
+    except FantasyTeam.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
 
 @api_view(['GET'])
 def get_all_fantasyteam(request):
