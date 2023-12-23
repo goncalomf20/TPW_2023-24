@@ -66,7 +66,7 @@ body {
     cursor: pointer;
     width: 20em;
     height: 30em;
-    background-image: url(../../../assets/img/Football_\(soccer_ball\).png),
+    background-image: url(https://cdn-icons-png.flaticon.com/256/53/53283.png),
       linear-gradient(
         0deg,
         rgb(59, 54, 8) 0%,
@@ -82,7 +82,7 @@ body {
   }
 
   .card2:hover {
-    background-image: url(../../../assets/img/Football_\(soccer_ball\).png),
+    background-image: url(https://cdn-icons-png.flaticon.com/256/53/53283.png),
       linear-gradient(
         0deg,
         rgba(90, 69, 0, 0.699) 0%,
@@ -97,7 +97,7 @@ body {
     opacity: 0;
     width: 20em;
     height: 30em;
-    background-image: url(../../../assets/img/Football_\(soccer_ball\).png);
+    background-image: url(https://cdn-icons-png.flaticon.com/256/53/53283.png);
     background-size: contain;
     background-repeat: no-repeat;
     transition: all 0.5s;

@@ -30,7 +30,7 @@ export class JogadorService {
         }
 
     async getEventosByJogadorID(id:number): Promise<Evento[]> {
-      const url = this.url + "evento/get/jogador" + id
+      const url = this.url + "evento/get/jogador/" + id
       const response: Response = await fetch(url)
       return await response.json() ?? []
     }

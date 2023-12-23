@@ -1,1 +1,22 @@
-<p>standings works!</p>
+<app-navbar></app-navbar>
+<div class="table-title" style="padding-top: 5%;">
+  <h3>Standings</h3>
+</div>
+<table class="table-fill">
+  <thead>
+    <tr>
+      <th class="text-left">Team</th>
+      <th class="text-left">Points</th>
+    </tr>
+  </thead>
+  <tbody class="table-hover">
+    <tr *ngFor="let each_cl of class">
+      <td class="text-left">{{ names_to_id.get(each_cl.equipa)}}</td>
+      <td class="text-left">{{ each_cl.nrPontos }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div style="padding-top: 5%;">
+  <app-footer></app-footer>
+</div>

@@ -480,6 +480,7 @@ def fantaByModalidade(request, id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
+
 @api_view(['GET'])
 def eventos_jogador(request, id):
     try:
@@ -600,6 +601,36 @@ def get_classificacaoid(request, id):
         serializer = ClassificacaoSerializer(classificacao)
         return Response(serializer.data)
     except Classificacao.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def class_by_liga(request, id):
+    try:
+        liga = Liga.objects.get(id=id)
+        classificacoes = Classificacao.objects.filter(liga=liga)
+        serializer = ClassificacaoSerializer(classificacoes, many=True)
+        return Response(serializer.data)
+    except Liga.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+
+@api_view(['GET'])
+def get_jogo_by_equipa_casa(request, equipa_casa):
+    try:
+        jogos = Jogo.objects.filter(equipa_casa=equipa_casa)
+        serializer = JogoSerializer(jogos, many=True)
+        return Response(serializer.data)
+    except Jogo.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def get_jogo_by_equipa_fora(request, equipa_fora):
+    try:
+        jogos = Jogo.objects.filter(equipa_fora=equipa_fora)
+        serializer = JogoSerializer(jogos, many=True)
+        return Response(serializer.data)
+    except Jogo.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])

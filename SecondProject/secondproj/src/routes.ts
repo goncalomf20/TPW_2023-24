@@ -4,7 +4,6 @@ import { AppComponent } from './app/app.component';
 import { RegisterComponent } from './app/components/register/register.component';
 import { HomeComponent } from './app/components/home/home.component';
 import { FantasyComponent } from './app/components/fantasy/fantasy.component';
-import { ProfileComponent } from './app/components/profile/profile.component';
 import { ModalidadeStatsComponent } from './app/components/modalidade-stats/modalidade-stats.component';
 import { ExclusiveModalComponent } from './app/components/exclusive-modal/exclusive-modal.component';
 import { StandingsComponent } from './app/components/standings/standings.component';
@@ -37,11 +36,6 @@ const routeConfig: Routes = [
     path: 'fantasy',
     component: FantasyComponent,
     title: 'Fantasy Page',    
-    },
-    {
-    path: 'profile',
-    component: ProfileComponent,
-    title: 'Profile Page',    
     },
     {
     path: 'statistics',

@@ -75,6 +75,8 @@ urlpatterns = [
     path('ws/jogo/getEventos/<int:id>', views.eventos_jogo),
     path('ws/jogo/update/<int:id>', views.update_jogo),
     path('ws/jogo/post', views.post_jogo),
+    path('ws/jogo/get/equipa_casa/<int:equipa_casa>', views.get_jogo_by_equipa_casa),
+    path('ws/jogo/get/equipa_fora/<int:equipa_fora>', views.get_jogo_by_equipa_fora),
 
     # Web Services for Evento
     path('ws/evento/delete', views.del_all_evento),
@@ -92,6 +94,7 @@ urlpatterns = [
     path('ws/classificacao/get', views.get_all_classificacao),
     path('ws/classificacao/update/<int:id>', views.update_classificacao),
     path('ws/classificacao/post', views.post_classificacao),
+    path('ws/classificacao/get/liga/<int:id>', views.class_by_liga),
 
     # Web Services for User
     path('ws/user/delete', views.del_all_user),
