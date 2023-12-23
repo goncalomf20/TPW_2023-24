@@ -346,6 +346,22 @@ def del_jogador(request, id):
 def get_jogadorid(request, id):
     try:
         jogador = Jogador.objects.get(id=id)
+
+        eventos = Evento.objects.filter(jogador=jogador).all()
+        pontos = 0
+        for e in eventos:
+            if e.tipo == "golo" or e.tipo == "ponto":
+                pontos += 2
+            elif e.tipo == "amarelo":
+                pontos -= 1
+            elif e.tipo == "vermelho":
+                pontos -= 2
+            elif e.tipo == "assistencia":
+                pontos += 1
+
+        jogador.pontos = pontos
+        jogador.save()
+
         serializer = JogadorSerializer(jogador)
         return Response(serializer.data)
     except Jogador.DoesNotExist:
@@ -354,7 +370,25 @@ def get_jogadorid(request, id):
 @api_view(['GET'])
 def get_all_jogador(request):
     jogadores = Jogador.objects.all()
-    serializer = JogadorSerializer(jogadores, many=True)
+    all_j = []
+    for jogador in jogadores:
+        eventos_por = Evento.objects.filter(jogador=jogador).all()
+        pontos = 0
+        for e in eventos_por:
+            if e.tipo == "golo" or e.tipo == "ponto":
+                pontos += 2
+            elif e.tipo == "amarelo":
+                pontos -= 1
+            elif e.tipo == "vermelho":
+                pontos -= 2
+            elif e.tipo == "assistencia":
+                pontos += 1
+
+            jogador.pontos = pontos
+            jogador.save()
+
+        all_j.append(jogador)
+    serializer = JogadorSerializer(all_j, many=True)
     return Response(serializer.data)
 
 
@@ -440,9 +474,27 @@ def jogadorByModalidade(request, id):
                 print(equipa, equipa.id)
                 jogadores = Jogador.objects.filter(id_equipa=equipa.id).all()
                 all_jogadores_m.extend(jogadores)
+        all_j = []
+        for jog in all_jogadores_m:
+            eventos_j = Evento.objects.filter(jogador=jog).all()
+            pontos = 0
+            for e in eventos_j:
+                if e.tipo == "golo" or e.tipo == "ponto":
+                    pontos += 2
+                elif e.tipo == "amarelo":
+                    pontos -= 1
+                elif e.tipo == "vermelho":
+                    pontos -= 2
+                elif e.tipo == "assistencia":
+                    pontos += 1
+
+            jog.pontos = pontos
+            jog.save()
+            all_j.append(jog)
+
 
        # jogador = Jogador.objects.get(id=id)
-        serializer = JogadorSerializer(all_jogadores_m, many=True)
+        serializer = JogadorSerializer(all_j, many=True)
         return Response(serializer.data)
     except Jogador.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
@@ -478,8 +530,6 @@ def fantaByModalidade(request, id):
         return Response(serializer.data)
     except FantasyTeam.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-
-
 
 @api_view(['GET'])
 def eventos_jogador(request, id):
